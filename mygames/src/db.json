@@ -1,0 +1,22 @@
+{
+  "games": [
+    {
+      "id": 2,
+      "name": "Animal Crossing: New Horizons",
+      "version": "2.0.6",
+      "imageUrl": "https://i.pinimg.com/736x/c4/48/ed/c448ede24af65127ded9ae518c4f7b27.jpg"
+    },
+    {
+      "id": "a150",
+      "name": "Super Mario Odyssey",
+      "version": "1.3.0",
+      "imageUrl": "https://scale.coolshop-cdn.com/product-media.coolshop-cdn.com/AM56ZQ/d1b7a347df0c49a8acc51bfe7ba4660a.png/f/super-mario-odyssey.png?height=650"
+    },
+    {
+      "id": "335c",
+      "name": "Bluey: The Videogame",
+      "version": "1.0.1",
+      "imageUrl": "https://m.media-amazon.com/images/I/81mhe0RX16L._AC_UF1000,1000_QL80_.jpg"
+    }
+  ]
+}
