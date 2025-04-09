@@ -113,12 +113,8 @@ const NintendoSwitchGameLibrary = () => {
       return false;
     }
     
-    // Konvertera den egna versionen till ett nummer för jämförelse
-    const ownVersionNumber = parseFloat(game.version) * 65536;
-    const latestVersionNumber = parseInt(latestVersions[game.titleId], 10);
-    
-    // Jämför versionsnummer
-    return latestVersionNumber > ownVersionNumber;
+    // Jämför versionssträng exakt med den numeriska versionen från GitHub
+    return game.version !== latestVersions[game.titleId];
   };
 
   // Funktion för att få den senaste versionen
@@ -127,15 +123,8 @@ const NintendoSwitchGameLibrary = () => {
       return 'Okänd';
     }
     
-    const numericVersion = latestVersions[titleId];
-    const readableVersion = convertVersionNumberToReadable(numericVersion);
-    
-    return (
-      <>
-        {readableVersion} 
-        <span className="numeric-version">({numericVersion})</span>
-      </>
-    );
+    // Returnera endast det numeriska värdet
+    return latestVersions[titleId];
   };
 
   // Hantera ändringar i ny spel-formuläret
@@ -305,7 +294,14 @@ const NintendoSwitchGameLibrary = () => {
                     ) : !latestVersions[game.titleId] ? (
                       <span className="unknown-status">Okänd</span>
                     ) : needsUpdate(game) ? (
-                      <span className="update-needed">Uppdatering tillgänglig</span>
+                      <a 
+                        href={`https://www.ziperto.com/?s=${encodeURIComponent(game.name.toLowerCase())}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="update-needed"
+                      >
+                        Uppdatering tillgänglig
+                      </a>
                     ) : (
                       <span className="up-to-date">Uppdaterad</span>
                     )}

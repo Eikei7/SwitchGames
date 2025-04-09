@@ -3,37 +3,37 @@
     {
       "id": "9e3f",
       "name": "LEGO® Builder's Journey",
-      "version": "3.0.1",
+      "version": "131072",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/b2b9b7cc53e12d10f150b013e29d4e21c4357a58c9357311d5f19d5ce1e975a4.jpg",
       "titleId": "01005EE0140AE800"
     },
     {
       "id": "05e2",
       "name": "Animal Crossing: New Horizons",
-      "version": "2.0.6",
+      "version": "1835008",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/4a320d37cd85f49d6e4a675b6d7b82f5ad13ae10b212d5b220fe4208c7d7c2f8.jpg",
       "titleId": "01006F8002326800"
     },
     {
       "id": "feaf",
       "name": "Bluey: The Videogame",
-      "version": "1.0.1",
+      "version": "393216",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/701ecf1525831c6f4d72f7d082fad67ba7d96158df32cab72c6c6388d2282840.jpg",
       "titleId": "01008C2019598800"
     },
     {
       "id": "a185",
       "name": "Disney Dreamlight Valley",
-      "version": "1.12.2",
+      "version": "2555904",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/26855ebc2e3100c4c5d47f0104f131f368fada9f059312ab5700ccd731e073d2.jpg",
       "titleId": "0100D39012C1A800"
     },
     {
       "id": "5dfa",
       "name": "Game Builder Garage",
-      "version": "1.0.1",
+      "version": "131072",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/a2a960a0dcb94c28147c9d08aa320d74bb6d65fa8bc63d02857477c58ff05c51.jpg",
-      "titleId": "0100FA5010788000"
+      "titleId": "0100FA5010788800"
     },
     {
       "id": "1582",
@@ -45,14 +45,14 @@
     {
       "id": "a20e",
       "name": "LEGO® Bricktales",
-      "version": "1.7.70",
+      "version": "720896",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/d21e950d54c8009745e7df86bbc9839d75631083737a367edc018b4c61d2fdf1.jpg",
-      "titleId": "0100B12017F0A000"
+      "titleId": "0100B12017F0A800"
     },
     {
       "id": "6a04",
       "name": "LEGO® Worlds",
-      "version": "1.7.70",
+      "version": "655360",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/3e847584cfa56ac2ca760450de754cd42573a43699255c479f1782d039fd7d41.jpg",
       "titleId": "0100838002AEA800"
     },
@@ -73,35 +73,35 @@
     {
       "id": "c375",
       "name": "Mario & Luigi: Brothership",
-      "version": "1.0.1",
+      "version": "65536",
       "imageUrl": "https://i.redd.it/vxfuilu5aqtd1.jpeg",
       "titleId": "01006D0017F7A800"
     },
     {
       "id": "644a",
       "name": "Mario Kart 8 Deluxe",
-      "version": "3.0.3",
+      "version": "1245184",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/55e0720b1a064e28b5df173d30b343ecd91287dc86942f833ffbf979a7a66ec9.jpg",
       "titleId": "0100152000022800"
     },
     {
       "id": "ea9c",
       "name": "Mario vs. Donkey Kong",
-      "version": "1.0.1",
+      "version": "65536",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/8b2bfebfa7dcb09e4ad4196df3f4f825395148941e2216c0404d35b3578a3bfc.jpg",
       "titleId": "0100B99019412800"
     },
     {
       "id": "e45d",
       "name": "New Pokémon Snap",
-      "version": "2.0.1",
+      "version": "262144",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/961f7e70e919bb9300c64d90e9e0ff3beb2d9128ce0d5137968e776fd8c2ec38.jpg",
       "titleId": "0100F4300BF2C800"
     },
     {
       "id": "c711",
       "name": "Nintendo World Championships: NES Edition",
-      "version": "1.1.0",
+      "version": "131072",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/ac966d6cdaad1b8d7c44d90295397dad082e90c7732db83440d0a3013523cad4.jpg",
       "titleId": "0100AD10185F8800"
     },
@@ -115,28 +115,28 @@
     {
       "id": "e901",
       "name": "Paper Mario: The Origami King",
-      "version": "1.0.1",
+      "version": "65536",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/0f9b01186ac3e3663853f9be978fa2e9a40d71f15bfa88e3a4512e5f410120f8.jpg",
       "titleId": "0100A3900C3E2800"
     },
     {
       "id": "1eb9",
       "name": "PAW Patrol World",
-      "version": "1.0.0",
+      "version": "131072",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/8768e2eb0d7bea7f12a5c61208c32d82bbb3e712432cb3dac68bfb36b297af25.jpg",
       "titleId": "0100273018D70800"
     },
     {
       "id": "b98f",
       "name": "Pikuniku",
-      "version": "1.0.3",
+      "version": "196608",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/a047706903195cd00b3bd978e6e1731ab3df3d8b8a6286dab4ba1e0dd06cfb09.jpg",
       "titleId": "010097D006DEA800"
     },
     {
       "id": "e7bb",
       "name": "Pokémon Legends: Arceus",
-      "version": "1.0.0",
+      "version": "262144",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/96acc14bf510d575c210eae08b6372fd5a536dea802da5c0331b39c4c358fe7c.jpg",
       "titleId": "01001F5010DFA800"
     },
@@ -150,28 +150,28 @@
     {
       "id": "d4de",
       "name": "Pokémon Shield",
-      "version": "1.2.1",
+      "version": "262144",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/959762efe1ebe8eb3e3eae454f7c6ee307df06446885dbab62f8bec7e2b4d91b.jpg",
       "titleId": "01008DB008C2C800"
     },
     {
       "id": "d9c6",
       "name": "Pokémon Sword",
-      "version": "1.2.1",
+      "version": "262144",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/0bf4bca3b619ae6ef04ca08214df7b2a438a8fec8616934b03ae73de839bd518.jpg",
       "titleId": "0100ABF008968800"
     },
     {
       "id": "f41a",
       "name": "Pokémon: Let's Go, Eevee!",
-      "version": "1.0.2",
+      "version": "131072",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/cf0dbdcad11b124c3a3090f7cf331fd484e1260efd91cf7208edfc9b621b3bdf.jpg",
       "titleId": "0100187003A36800"
     },
     {
       "id": "2122",
       "name": "Pokémon: Let's Go, Pikachu!",
-      "version": "1.0.2",
+      "version": "131072",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/68319146899bcac903887a25ff13c361b86c2980f5fb3231cc7863188ffce251.jpg",
       "titleId": "010003F003A34800"
     },
@@ -185,7 +185,7 @@
     {
       "id": "01e7",
       "name": "Rollercoaster Tycoon Classic",
-      "version": "1.5.352",
+      "version": "327680",
       "imageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0b/RollerCoaster_Tycoon_Classic.jpg/220px-RollerCoaster_Tycoon_Classic.jpg",
       "titleId": "01003D101FF0C800"
     },
@@ -199,21 +199,21 @@
     {
       "id": "80ee",
       "name": "Sonic Mania",
-      "version": "1.04",
+      "version": "131072",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/687ff984dcffc714fdef6b8684028c3039a3ea8e1630bb8898aa9583d8161771.jpg",
       "titleId": "01009AA000FAA800"
     },
     {
       "id": "688f",
       "name": "Splatoon 2",
-      "version": "5.5.1",
+      "version": "3276800",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/a0af3e5f59b543af010e54c664c53fa17f66c37098418ba73b45aa6b43ac6f0d.jpg",
       "titleId": "01003BC0000A0800"
     },
     {
       "id": "91a4",
       "name": "Yoshi's Crafted World",
-      "version": "1.0.1",
+      "version": "65536",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/eb4db2538ac3d439fce167fe2c23d2a58b09a80fdf1a8d00d1cbae50481f374f.jpg",
       "titleId": "01006000040C2800"
     },
@@ -234,49 +234,49 @@
     {
       "id": "6435",
       "name": "Super Mario 3D All-Stars",
-      "version": "1.1.1",
+      "version": "196608",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/57c10fc8119099496c5a4fd31b0720a35be0b54a3350838b6e49ff140461b945.jpg",
       "titleId": "010049900F546800"
     },
     {
       "id": "d85e",
       "name": "Super Mario 3D World + Bowser's Fury",
-      "version": "1.1.0",
+      "version": "65536",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/4b24fd7398f9b569642ed7846edf633456dfbf5f85ae98479eaf5c49a797c4d0.jpg",
       "titleId": "010028600EBDA800"
     },
     {
       "id": "64d3",
       "name": "Super Mario Bros. Wonder",
-      "version": "1.0.1",
+      "version": "65536",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/bf2fca7eed5ad7ec96d03025907ea52c3efe168e02c8be96e868d8430a247a57.jpg",
       "titleId": "010015100B514800"
     },
     {
       "id": "a995",
       "name": "Super Mario Maker 2",
-      "version": "1.0.1",
+      "version": "458752",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/6e3e4c0a8e88dd9470d686a55052dca29f1be48ae3af3249a0d34a39f77d2684.jpg",
       "titleId": "01009B90006DC800"
     },
     {
       "id": "9b06",
       "name": "Super Mario Odyssey",
-      "version": "1.3.0",
+      "version": "262144",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/ad4d31f664a1ce704f0219da2805f8459595bc3c01c3f04df2e32ba34a05b8c6.jpg",
       "titleId": "0100000000010800"
     },
     {
       "id": "c8de",
       "name": "Super Mario Party",
-      "version": "1.0.1",
+      "version": "131072",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/b200ef18f68bed4e23b7e384700862b23bcb943966e0a040d98174b3e24bb7bd.jpg",
       "titleId": "010036B0034E4800"
     },
     {
       "id": "47f4",
       "name": "Super Mario RPG",
-      "version": "1.0.1",
+      "version": "65536",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/b15ff4449c0e8b3100919e965bd8483ec84c0bee9442522d32012ab949e2acb2.jpg",
       "titleId": "0100BC0018138800"
     },
@@ -293,6 +293,13 @@
       "version": "1.2.1",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/c3d791292726c5eaf78d213531003ab06854aba04df58bccc79c1690d13ac6cc.jpg",
       "titleId": "0100F2C0115B6800"
+    },
+    {
+      "id": "3694",
+      "name": "The Legend of Zelda: Echoes of Wisdom",
+      "version": "131072",
+      "imageUrl": "https://livecards.net/pl/the-legend-of-zelda-echoes-of-wisdom-nintendo-switch-eu-75204.jpg",
+      "titleId": "01008CF01BAAC800"
     }
   ]
 }
