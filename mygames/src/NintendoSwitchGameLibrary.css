@@ -76,8 +76,8 @@
   }
   
   .game-image {
-    width: 64px;
-    height: 80px;
+    width: 80px;
+    height: 100px;
     object-fit: cover;
     border-radius: 4px;
   }
@@ -245,4 +245,78 @@
   
   .add-game-button:hover {
     background-color: #27ae60;
+  }
+
+  .version-control {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .update-versions-button {
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .update-versions-button:hover {
+    background-color: #1a252f;
+  }
+  
+  .update-versions-button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+  }
+  
+  .up-to-date {
+    background-color: #2ecc71;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: inline-block;
+  }
+  
+  .update-needed {
+    background-color: #e74c3c;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: inline-block;
+  }
+  
+  .unknown-status {
+    background-color: #95a5a6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: inline-block;
+  }
+
+  .numeric-version {
+    font-size: 10px;
+    color: #888;
+    margin-left: 4px;
+    display: inline-block;
+  }
+
+  .sortable-header {
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+  }
+  
+  .sortable-header:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .sortable-header:after {
+    margin-left: 5px;
+    color: #333;
   }
