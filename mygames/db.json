@@ -66,7 +66,7 @@
     {
       "id": "b51f",
       "name": "Unpacking",
-      "version": "1.2",
+      "version": "131072",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/84c3aa1a076cefdbdd7f479fa66b3c11d127d7e4298ad6b1f9396a04ee010a78.jpg",
       "titleId": "0100701015846800"
     },
@@ -143,21 +143,21 @@
     {
       "id": "7457",
       "name": "Pokémon Scarlet",
-      "version": "3.0.0",
+      "version": "720896",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/fa0f7bba88e0bc9b24cb0a2d1707990a6bc2c59480d22b821114d1a57762fafc.jpg",
       "titleId": "0100A3D008C5C800"
     },
     {
       "id": "d4de",
       "name": "Pokémon Shield",
-      "version": "262144",
+      "version": "458752",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/959762efe1ebe8eb3e3eae454f7c6ee307df06446885dbab62f8bec7e2b4d91b.jpg",
       "titleId": "01008DB008C2C800"
     },
     {
       "id": "d9c6",
       "name": "Pokémon Sword",
-      "version": "262144",
+      "version": "458752",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/0bf4bca3b619ae6ef04ca08214df7b2a438a8fec8616934b03ae73de839bd518.jpg",
       "titleId": "0100ABF008968800"
     },
@@ -220,7 +220,7 @@
     {
       "id": "6fcc",
       "name": "Ultimate Chicken Horse",
-      "version": "1.10.05a",
+      "version": "1310720",
       "imageUrl": "https://img-eshop.cdn.nintendo.net/i/d4fdb1d05ac87a067bb6086f7dc89569f7d1a684e2935fac2a0dafdeb602647b.jpg",
       "titleId": "0100FCF002A58800"
     },
