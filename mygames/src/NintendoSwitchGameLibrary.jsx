@@ -24,22 +24,6 @@ const NintendoSwitchGameLibrary = () => {
 
   const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/16BitWonder/nx-versions/master/versions.txt';
 
-  function convertVersionNumberToReadable(numericVersion) {
-    const versionNum = parseInt(numericVersion, 10);
-    
-    if (isNaN(versionNum)) {
-      return numericVersion;
-    }
-    
-    const version = versionNum / 65536;
-    
-    if (version === Math.floor(version)) {
-      return version.toString();
-    }
-    
-    return version.toFixed(1);
-  }
-
   useEffect(() => {
     fetchGames();
     fetchLatestVersions();
@@ -68,6 +52,8 @@ const NintendoSwitchGameLibrary = () => {
   const fetchLatestVersions = async () => {
     try {
       setLoadingVersions(true);
+      console.log('Börjar hämta versioner från:', GITHUB_RAW_URL);
+      
       const response = await fetch(GITHUB_RAW_URL);
       
       if (!response.ok) {
@@ -75,9 +61,11 @@ const NintendoSwitchGameLibrary = () => {
       }
       
       const text = await response.text();
+      console.log('Hämtade data, längd:', text.length, 'tecken');
       
       const versionMap = {};
       const lines = text.split('\n');
+      console.log('Antal rader i filen:', lines.length);
       
       lines.forEach(line => {
         if (line && line.includes('|')) {
@@ -88,7 +76,11 @@ const NintendoSwitchGameLibrary = () => {
         }
       });
       
+      console.log('Antal spel med versionsinfo:', Object.keys(versionMap).length);
+      console.log('Exempel på några versioner:', Object.entries(versionMap).slice(0, 3));
+      
       setLatestVersions(versionMap);
+      console.log('Versionshämtning lyckades!');
     } catch (err) {
       console.error('Kunde inte hämta senaste versioner:', err);
     } finally {
@@ -203,17 +195,7 @@ const NintendoSwitchGameLibrary = () => {
   return (
     <div className="container">
       <h1 className="main-title">Nintendo Switch Game Library</h1>
-      
-      <div className="version-control">
-        <button 
-          onClick={fetchLatestVersions} 
-          className="update-versions-button"
-          disabled={loadingVersions}
-        >
-          {loadingVersions ? 'Fetching versions...' : 'Update versions from txt file'}
-        </button>
-      </div>
-      
+            
       {error && (
         <div className="error-message">
           <p>{error}</p>
@@ -301,7 +283,7 @@ const NintendoSwitchGameLibrary = () => {
       </div>
 
       <div className="add-game-form">
-        <h2>Lägg till nytt spel</h2>
+        <h2>Add new game</h2>
         <div className="form-grid">
           <div className="form-group">
             <label>Title</label>
@@ -356,7 +338,7 @@ const NintendoSwitchGameLibrary = () => {
           {loading ? 'Loading...' : 'Add game'}
         </button>
       </div>
-      <p><a href="https://raw.githubusercontent.com/16BitWonder/nx-versions/master/versions.txt">afa</a></p>
+      <p><a href="https://raw.githubusercontent.com/16BitWonder/nx-versions/master/versions.txt">Giant list of titles and their latest version</a></p>
       <p><a href="https://www.eliboa.com/switch/nsw_titles.php">Box art URL's found here</a></p>
     </div>
   );
