@@ -8,13 +8,11 @@ const NintendoSwitchGameLibrary = () => {
   const [latestVersions, setLatestVersions] = useState({});
   const [loadingVersions, setLoadingVersions] = useState(false);
 
-  // Sorteringstillstånd
   const [sortConfig, setSortConfig] = useState({
     key: 'name',
     direction: 'ascending'
   });
 
-  // Ny speldetalj för att lägga till i listan
   const [newGame, setNewGame] = useState({
     name: "",
     version: "",
@@ -22,12 +20,10 @@ const NintendoSwitchGameLibrary = () => {
     titleId: ""
   });
 
-  // API-basadress för JSON Server
   const API_URL = 'http://localhost:3000/games';
 
   const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/16BitWonder/nx-versions/master/versions.txt';
 
-  // Funktion för att konvertera numeriska versions-ID till läsbar version
   function convertVersionNumberToReadable(numericVersion) {
     const versionNum = parseInt(numericVersion, 10);
     
@@ -35,25 +31,20 @@ const NintendoSwitchGameLibrary = () => {
       return numericVersion;
     }
     
-    // Dela med 65536 för att få versionsnumret enligt Nintendo-konventionen
     const version = versionNum / 65536;
     
-    // Formatera för att undvika decimaltal om det är ett jämnt heltal
     if (version === Math.floor(version)) {
       return version.toString();
     }
     
-    // Annars, visa med en decimal
     return version.toFixed(1);
   }
 
-  // Hämta speldata från JSON Server när komponenten laddas
   useEffect(() => {
     fetchGames();
     fetchLatestVersions();
   }, []);
 
-  // Funktion för att hämta spel
   const fetchGames = async () => {
     try {
       setLoading(true);
@@ -74,7 +65,6 @@ const NintendoSwitchGameLibrary = () => {
     }
   };
 
-  // Funktion för att hämta senaste versioner från GitHub
   const fetchLatestVersions = async () => {
     try {
       setLoadingVersions(true);
@@ -86,7 +76,6 @@ const NintendoSwitchGameLibrary = () => {
       
       const text = await response.text();
       
-      // Tolka versionsdata (format: [titleId]|[versionsNr])
       const versionMap = {};
       const lines = text.split('\n');
       
@@ -107,37 +96,30 @@ const NintendoSwitchGameLibrary = () => {
     }
   };
 
-  // Funktion för att kontrollera om ett spel behöver uppdateras
   const needsUpdate = (game) => {
     if (!game.titleId || !latestVersions[game.titleId]) {
       return false;
     }
     
-    // Jämför versionssträng exakt med den numeriska versionen från GitHub
     return game.version !== latestVersions[game.titleId];
   };
 
-  // Funktion för att få den senaste versionen
   const getLatestVersion = (titleId) => {
     if (!titleId || !latestVersions[titleId]) {
       return 'Okänd';
     }
     
-    // Returnera endast det numeriska värdet
     return latestVersions[titleId];
   };
 
-  // Hantera ändringar i ny spel-formuläret
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewGame({ ...newGame, [name]: value });
   };
 
-  // Lägg till nytt spel i databasen
   const handleAddGame = async () => {
     if (newGame.name && newGame.version) {
       try {
-        // Skapa ett nytt spel via API
         const response = await fetch(API_URL, {
           method: 'POST',
           headers: {
@@ -150,10 +132,8 @@ const NintendoSwitchGameLibrary = () => {
           throw new Error(`HTTP-fel ${response.status}`);
         }
 
-        // Hämta spel igen efter att ha lagt till ett nytt
         fetchGames();
         
-        // Återställ formuläret
         setNewGame({
           name: "",
           version: "",
@@ -161,16 +141,15 @@ const NintendoSwitchGameLibrary = () => {
           titleId: ""
         });
       } catch (err) {
-        console.error('Kunde inte lägga till spel:', err);
-        setError('Kunde inte lägga till spel. Kontrollera att JSON Server är igång.');
+        console.error("Couldn't add game:", err);
+        setError("Couldn't add game: Please check that the JSON server is running.");
       }
     } else {
-      setError('Vänligen fyll i både spelnamn och version.');
+      setError('Please add both title and version.');
       setTimeout(() => setError(null), 3000);
     }
   };
 
-  // Ta bort spel från databasen
   const handleRemoveGame = async (id) => {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
@@ -181,15 +160,13 @@ const NintendoSwitchGameLibrary = () => {
         throw new Error(`HTTP-fel ${response.status}`);
       }
 
-      // Uppdatera UI genom att ta bort spelet från state
       setGames(games.filter(game => game.id !== id));
     } catch (err) {
-      console.error('Kunde inte ta bort spel:', err);
-      setError('Kunde inte ta bort spel. Kontrollera att JSON Server är igång.');
+      console.error("Couldn't remove game:", err);
+      setError("Couldn't remove game. Please check that the JSON server is running.");
     }
   };
 
-  // Funktion för att sortera spel
   const requestSort = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -198,7 +175,6 @@ const NintendoSwitchGameLibrary = () => {
     setSortConfig({ key, direction });
   };
 
-  // Funktion för att få sorterade spel
   const getSortedGames = () => {
     let sortableGames = [...games];
     
@@ -217,7 +193,6 @@ const NintendoSwitchGameLibrary = () => {
     return sortableGames;
   };
 
-  // Funktion för att få sorteringsiklassnamn
   const getSortIndicator = (key) => {
     if (sortConfig.key === key) {
       return sortConfig.direction === 'ascending' ? '↑' : '↓';
@@ -227,46 +202,43 @@ const NintendoSwitchGameLibrary = () => {
 
   return (
     <div className="container">
-      <h1 className="main-title">Nintendo Switch Spelbibliotek</h1>
+      <h1 className="main-title">Nintendo Switch Game Library</h1>
       
-      {/* Uppdateringsknapp för versioner */}
       <div className="version-control">
         <button 
           onClick={fetchLatestVersions} 
           className="update-versions-button"
           disabled={loadingVersions}
         >
-          {loadingVersions ? 'Hämtar versioner...' : 'Uppdatera versioner från GitHub'}
+          {loadingVersions ? 'Fetching versions...' : 'Update versions from txt file'}
         </button>
       </div>
       
-      {/* Visa felmeddelande om något gick fel */}
       {error && (
         <div className="error-message">
           <p>{error}</p>
-          <button onClick={fetchGames} className="retry-button">Försök igen</button>
+          <button onClick={fetchGames} className="retry-button">Try again</button>
         </div>
       )}
       
-      {/* Speldata tabell */}
       <div className="table-container">
         {loading ? (
-          <div className="loading">Laddar speldata...</div>
+          <div className="loading">Loading data...</div>
         ) : (
           <table className="game-table">
             <thead>
               <tr>
-                <th>Bild</th>
+                <th>Image</th>
                 <th 
                   className="sortable-header" 
                   onClick={() => requestSort('name')}
                 >
-                  Spelnamn {getSortIndicator('name')}
+                  Title {getSortIndicator('name')}
                 </th>
-                <th>Din version</th>
-                <th>Senaste version</th>
+                <th>Your version</th>
+                <th>Latest version</th>
                 <th>Status</th>
-                <th>Åtgärder</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -281,7 +253,7 @@ const NintendoSwitchGameLibrary = () => {
                       />
                     ) : (
                       <div className="no-image">
-                        Ingen bild
+                        No image
                       </div>
                     )}
                   </td>
@@ -290,9 +262,9 @@ const NintendoSwitchGameLibrary = () => {
                   <td>{getLatestVersion(game.titleId)}</td>
                   <td>
                     {!game.titleId ? (
-                      <span className="unknown-status">Inget Title ID</span>
+                      <span className="unknown-status">No Title ID</span>
                     ) : !latestVersions[game.titleId] ? (
-                      <span className="unknown-status">Okänd</span>
+                      <span className="unknown-status">Unknown</span>
                     ) : needsUpdate(game) ? (
                       <a 
                         href={`https://www.ziperto.com/?s=${encodeURIComponent(game.name.toLowerCase())}`}
@@ -300,10 +272,10 @@ const NintendoSwitchGameLibrary = () => {
                         rel="noopener noreferrer"
                         className="update-needed"
                       >
-                        Uppdatering tillgänglig
+                        Update available
                       </a>
                     ) : (
-                      <span className="up-to-date">Uppdaterad</span>
+                      <span className="up-to-date">Up-to-date</span>
                     )}
                   </td>
                   <td>
@@ -311,7 +283,7 @@ const NintendoSwitchGameLibrary = () => {
                       onClick={() => handleRemoveGame(game.id)}
                       className="remove-button"
                     >
-                      Ta bort
+                      Remove
                     </button>
                   </td>
                 </tr>
@@ -319,7 +291,7 @@ const NintendoSwitchGameLibrary = () => {
               {games.length === 0 && !loading && (
                 <tr>
                   <td colSpan="6" className="empty-table">
-                    Inga spel har lagts till än
+                    No games added yet.
                   </td>
                 </tr>
               )}
@@ -328,18 +300,17 @@ const NintendoSwitchGameLibrary = () => {
         )}
       </div>
 
-      {/* Formulär för att lägga till nytt spel */}
       <div className="add-game-form">
         <h2>Lägg till nytt spel</h2>
         <div className="form-grid">
           <div className="form-group">
-            <label>Spelnamn</label>
+            <label>Title</label>
             <input 
               type="text" 
               name="name" 
               value={newGame.name} 
               onChange={handleInputChange}
-              placeholder="t.ex. Super Mario Odyssey"
+              placeholder="e.g. Super Mario Odyssey"
             />
           </div>
           
@@ -350,7 +321,7 @@ const NintendoSwitchGameLibrary = () => {
               name="version" 
               value={newGame.version} 
               onChange={handleInputChange}
-              placeholder="t.ex. 1.3.0"
+              placeholder="e.g. 393216"
             />
           </div>
 
@@ -361,12 +332,12 @@ const NintendoSwitchGameLibrary = () => {
               name="titleId" 
               value={newGame.titleId} 
               onChange={handleInputChange}
-              placeholder="t.ex. 0100000000010000"
+              placeholder="e.g. 0100000000010000"
             />
           </div>
 
           <div className="form-group">
-            <label>Bild URL</label>
+            <label>Image</label>
             <input 
               type="text" 
               name="imageUrl" 
@@ -382,9 +353,11 @@ const NintendoSwitchGameLibrary = () => {
           className="add-game-button"
           disabled={loading}
         >
-          {loading ? 'Laddar...' : 'Lägg till spel'}
+          {loading ? 'Loading...' : 'Add game'}
         </button>
       </div>
+      <p><a href="https://raw.githubusercontent.com/16BitWonder/nx-versions/master/versions.txt">afa</a></p>
+      <p><a href="https://www.eliboa.com/switch/nsw_titles.php">Box art URL's found here</a></p>
     </div>
   );
 };
