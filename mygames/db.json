@@ -300,6 +300,13 @@
       "version": "131072",
       "imageUrl": "https://livecards.net/pl/the-legend-of-zelda-echoes-of-wisdom-nintendo-switch-eu-75204.jpg",
       "titleId": "01008CF01BAAC800"
+    },
+    {
+      "id": "b98a",
+      "name": "Untitled Goose Game",
+      "version": "458752",
+      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/4e8b857cf14007f2a38799a6fa1e78a2381cab3cd24bc3fccfdded10cdff8f67.jpg",
+      "titleId": "010082400BCC6800"
     }
   ]
 }
