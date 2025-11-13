@@ -1,187 +1,6 @@
 {
   "games": [
     {
-      "id": "b51f",
-      "title": "Unpacking",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/84c3aa1a076cefdbdd7f479fa66b3c11d127d7e4298ad6b1f9396a04ee010a78.jpg",
-      "titleId": "0100701015846800"
-    },
-    {
-      "id": "3c94",
-      "title": "Pan'orama",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/e564b275a47866af22c3c0b34563db217da6379d823d476bd1f63d1e8e51f407.jpg",
-      "titleId": "010022801CD9E000",
-      "completed": false
-    },
-    {
-      "id": "e901",
-      "title": "Paper Mario: The Origami King",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/0f9b01186ac3e3663853f9be978fa2e9a40d71f15bfa88e3a4512e5f410120f8.jpg",
-      "titleId": "0100A3900C3E2800"
-    },
-    {
-      "id": "b98f",
-      "title": "Pikuniku",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/a047706903195cd00b3bd978e6e1731ab3df3d8b8a6286dab4ba1e0dd06cfb09.jpg",
-      "titleId": "010097D006DEA800"
-    },
-    {
-      "id": "e7bb",
-      "title": "Pokémon Legends: Arceus",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/96acc14bf510d575c210eae08b6372fd5a536dea802da5c0331b39c4c358fe7c.jpg",
-      "titleId": "01001F5010DFA800"
-    },
-    {
-      "id": "7457",
-      "title": "Pokémon Scarlet",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/fa0f7bba88e0bc9b24cb0a2d1707990a6bc2c59480d22b821114d1a57762fafc.jpg",
-      "titleId": "0100A3D008C5C800"
-    },
-    {
-      "id": "d4de",
-      "title": "Pokémon Shield",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/959762efe1ebe8eb3e3eae454f7c6ee307df06446885dbab62f8bec7e2b4d91b.jpg",
-      "titleId": "01008DB008C2C800"
-    },
-    {
-      "id": "d9c6",
-      "title": "Pokémon Sword",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/0bf4bca3b619ae6ef04ca08214df7b2a438a8fec8616934b03ae73de839bd518.jpg",
-      "titleId": "0100ABF008968800"
-    },
-    {
-      "id": "f41a",
-      "title": "Pokémon: Let's Go, Eevee!",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/cf0dbdcad11b124c3a3090f7cf331fd484e1260efd91cf7208edfc9b621b3bdf.jpg",
-      "titleId": "0100187003A36800"
-    },
-    {
-      "id": "2122",
-      "title": "Pokémon: Let's Go, Pikachu!",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/68319146899bcac903887a25ff13c361b86c2980f5fb3231cc7863188ffce251.jpg",
-      "titleId": "010003F003A34800"
-    },
-    {
-      "id": "1b97",
-      "title": "Princess Peach: Showtime!",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/f1627ab6745544bc8f7c862f3e219b583be25bd5b0b12e062c5f4b5f73ce7010.jpg",
-      "titleId": "01007A3009184000"
-    },
-    {
-      "id": "01e7",
-      "title": "Rollercoaster Tycoon Classic",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0b/RollerCoaster_Tycoon_Classic.jpg/220px-RollerCoaster_Tycoon_Classic.jpg",
-      "titleId": "01003D101FF0C800"
-    },
-    {
-      "id": "5831",
-      "title": "Snufkin: Melody of Moominvalley",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/424fa9f654afc13ba11795d928a140ad5d40e70723a6a4139eb7747b5297653f.jpg",
-      "titleId": "010085001A17C800"
-    },
-    {
-      "id": "80ee",
-      "title": "Sonic Mania",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/687ff984dcffc714fdef6b8684028c3039a3ea8e1630bb8898aa9583d8161771.jpg",
-      "titleId": "01009AA000FAA800"
-    },
-    {
-      "id": "688f",
-      "title": "Splatoon 2",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/a0af3e5f59b543af010e54c664c53fa17f66c37098418ba73b45aa6b43ac6f0d.jpg",
-      "titleId": "01003BC0000A0800"
-    },
-    {
-      "id": "91a4",
-      "title": "Yoshi's Crafted World",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/eb4db2538ac3d439fce167fe2c23d2a58b09a80fdf1a8d00d1cbae50481f374f.jpg",
-      "titleId": "01006000040C2800"
-    },
-    {
-      "id": "6fcc",
-      "title": "Ultimate Chicken Horse",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/d4fdb1d05ac87a067bb6086f7dc89569f7d1a684e2935fac2a0dafdeb602647b.jpg",
-      "titleId": "0100FCF002A58800"
-    },
-    {
-      "id": "5317",
-      "title": "Witchy Life Story",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/66e7b72d0a75af632dc8978eec5d0ffeae78bb77e137d1dad53a9e93f7bf4d3d.jpg",
-      "titleId": "01007E001B08E000"
-    },
-    {
-      "id": "6435",
-      "title": "Super Mario 3D All-Stars",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/57c10fc8119099496c5a4fd31b0720a35be0b54a3350838b6e49ff140461b945.jpg",
-      "titleId": "010049900F546800"
-    },
-    {
-      "id": "d85e",
-      "title": "Super Mario 3D World + Bowser's Fury",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/4b24fd7398f9b569642ed7846edf633456dfbf5f85ae98479eaf5c49a797c4d0.jpg",
-      "titleId": "010028600EBDA800"
-    },
-    {
-      "id": "64d3",
-      "title": "Super Mario Bros. Wonder",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/bf2fca7eed5ad7ec96d03025907ea52c3efe168e02c8be96e868d8430a247a57.jpg",
-      "titleId": "010015100B514800"
-    },
-    {
-      "id": "a995",
-      "title": "Super Mario Maker 2",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/6e3e4c0a8e88dd9470d686a55052dca29f1be48ae3af3249a0d34a39f77d2684.jpg",
-      "titleId": "01009B90006DC800"
-    },
-    {
-      "id": "9b06",
-      "title": "Super Mario Odyssey",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/ad4d31f664a1ce704f0219da2805f8459595bc3c01c3f04df2e32ba34a05b8c6.jpg",
-      "titleId": "0100000000010800"
-    },
-    {
-      "id": "c8de",
-      "title": "Super Mario Party",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/b200ef18f68bed4e23b7e384700862b23bcb943966e0a040d98174b3e24bb7bd.jpg",
-      "titleId": "010036B0034E4800"
-    },
-    {
-      "id": "47f4",
-      "title": "Super Mario RPG",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/b15ff4449c0e8b3100919e965bd8483ec84c0bee9442522d32012ab949e2acb2.jpg",
-      "titleId": "0100BC0018138800"
-    },
-    {
-      "id": "ea07",
-      "title": "The Legend of Zelda: Breath of the Wild",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/d3c210e61e8487200fc4c344987243a60257838187a69a6a81c42d7447d5d192.jpg",
-      "titleId": "01007EF00011E800"
-    },
-    {
-      "id": "685e",
-      "title": "The Legend of Zelda: Tears of the Kingdom",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/c3d791292726c5eaf78d213531003ab06854aba04df58bccc79c1690d13ac6cc.jpg",
-      "titleId": "0100F2C0115B6800"
-    },
-    {
-      "id": "3694",
-      "title": "The Legend of Zelda: Echoes of Wisdom",
-      "imageUrl": "https://livecards.net/pl/the-legend-of-zelda-echoes-of-wisdom-nintendo-switch-eu-75204.jpg",
-      "titleId": "01008CF01BAAC800"
-    },
-    {
-      "id": "b98a",
-      "title": "Untitled Goose Game",
-      "imageUrl": "https://img-eshop.cdn.nintendo.net/i/4e8b857cf14007f2a38799a6fa1e78a2381cab3cd24bc3fccfdded10cdff8f67.jpg",
-      "titleId": "010082400BCC6800"
-    },
-    {
-      "id": "ff00",
-      "title": "Bluey: The Videogame",
-      "completed": false,
-      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co73oi.jpg"
-    },
-    {
       "id": "78d9",
       "title": "Disney Dreamlight Valley",
       "completed": false,
@@ -258,6 +77,180 @@
       "title": "Paw Patrol: World",
       "completed": false,
       "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co75f0.jpg"
+    },
+    {
+      "id": "3d80",
+      "title": "Pan'orama",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5k93.jpg"
+    },
+    {
+      "id": "11bc",
+      "title": "Paper Mario: The Origami King",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2sai.jpg"
+    },
+    {
+      "id": "dbba",
+      "title": "Pikuniku",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_1080p/ar4bcx.jpg"
+    },
+    {
+      "id": "0a7b",
+      "title": "Pokémon Legends: Arceus",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3d03.jpg"
+    },
+    {
+      "id": "d0c8",
+      "title": "Pokémon Scarlet",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5sfi.jpg"
+    },
+    {
+      "id": "a517",
+      "title": "Pokémon Shield",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zk1.jpg"
+    },
+    {
+      "id": "06cc",
+      "title": "Pokémon Sword",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zk2.jpg"
+    },
+    {
+      "id": "f993",
+      "title": "Pokémon: Let's Go, Eevee!",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zjz.jpg"
+    },
+    {
+      "id": "5ca7",
+      "title": "Bluey: The Videogame",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co73oi.jpg"
+    },
+    {
+      "id": "414f",
+      "title": "Splatoon 2",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6dn3.jpg"
+    },
+    {
+      "id": "8ac0",
+      "title": "Princess Peach: Showtime!",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co835c.jpg"
+    },
+    {
+      "id": "6a46",
+      "title": "Pokémon: Let's Go, Pikachu!",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_1080p/ar3vlq.jpg"
+    },
+    {
+      "id": "3b87",
+      "title": "RollerCoaster Tycoon Classic",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co24oc.jpg"
+    },
+    {
+      "id": "b19e",
+      "title": "Snufkin: Melody of Moominvalley",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8o05.jpg"
+    },
+    {
+      "id": "8a53",
+      "title": "Sonic Mania",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_1080p/ar482q.jpg"
+    },
+    {
+      "id": "5f0e",
+      "title": "Super Mario 3D All-Stars",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2mf8.jpg"
+    },
+    {
+      "id": "5d7b",
+      "title": "Super Mario 3D World + Bowser's Fury",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2uo9.jpg"
+    },
+    {
+      "id": "ff8a",
+      "title": "Super Mario Maker 2",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co21vy.jpg"
+    },
+    {
+      "id": "1f02",
+      "title": "Super Mario Bros. Wonder",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6nnl.jpg"
+    },
+    {
+      "id": "d761",
+      "title": "Super Mario Party",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1mxj.jpg"
+    },
+    {
+      "id": "525b",
+      "title": "Super Mario RPG",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_1080p/ar3p10.jpg"
+    },
+    {
+      "id": "5b35",
+      "title": "The Legend of Zelda: Breath of the Wild",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_1080p/ar3p2d.jpg"
+    },
+    {
+      "id": "0ed4",
+      "title": "The Legend of Zelda: Echoes of Wisdom",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8d9b.jpg"
+    },
+    {
+      "id": "0779",
+      "title": "The Legend of Zelda: Tears of the Kingdom",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_1080p/ar3m45.jpg"
+    },
+    {
+      "id": "d47d",
+      "title": "Ultimate Chicken Horse",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2i45.jpg"
+    },
+    {
+      "id": "ea02",
+      "title": "Unpacking",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1t45.jpg"
+    },
+    {
+      "id": "d19a",
+      "title": "Untitled Goose Game",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vqc.jpg"
+    },
+    {
+      "id": "2188",
+      "title": "Witchy Life Story",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co56qt.jpg"
+    },
+    {
+      "id": "c18a",
+      "title": "Yoshi's Crafted World",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co260b.jpg"
     }
   ]
 }

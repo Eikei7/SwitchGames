@@ -512,7 +512,7 @@ const getGameArtwork = async (gameId) => {
         <h2>Add new game</h2>
         <div className="form-grid">
           <div className="form-group search-container" ref={dropdownRef}>
-            <label>Search Game *</label>
+            {/* <label>Search Game *</label> */}
             <div className="search-input-wrapper">
               <input 
                 type="text" 
@@ -574,7 +574,7 @@ const getGameArtwork = async (gameId) => {
             )}
           </div>
 
-          <div className="form-group checkbox-group">
+          {/* <div className="form-group checkbox-group">
             <label>
               <input 
                 type="checkbox" 
@@ -584,7 +584,7 @@ const getGameArtwork = async (gameId) => {
               />
               Completed
             </label>
-          </div>
+          </div> */}
         </div>
 
         <div className="form-help">
