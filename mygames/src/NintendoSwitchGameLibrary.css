@@ -153,7 +153,7 @@
 }
 
 .game-card.completed {
-  opacity: 0.8;
+  opacity: 0.4;
   background-color: #f8fff8;
 }
 
