@@ -193,12 +193,6 @@
       "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6nnl.jpg"
     },
     {
-      "id": "d761",
-      "title": "Super Mario Party",
-      "completed": false,
-      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1mxj.jpg"
-    },
-    {
       "id": "525b",
       "title": "Super Mario RPG",
       "completed": false,
@@ -247,7 +241,7 @@
       "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co56qt.jpg"
     },
     {
-      "id": "c18a",
+      "id": "3ce0",
       "title": "Yoshi's Crafted World",
       "completed": false,
       "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co260b.jpg"

@@ -483,129 +483,149 @@ const getGameArtwork = async (gameId) => {
   };
 
   return (
-    <div className="container">
-      <h1 className="main-title">Nintendo Switch Game Library</h1>
-      
-      {/* API Status Display */}
-      <div className={`api-status ${apiStatus}`}>
-        <p>{getApiStatusMessage()}</p>
-        {apiStatus === 'no_credentials' && (
-          <div className="credentials-help">
-            <p>To enable game search, add these to your <code>.env</code> file:</p>
-            <code>
-              VITE_IGDB_CLIENT_ID=your_client_id_here<br />
-              VITE_IGDB_CLIENT_SECRET=your_client_secret_here
-            </code>
-            <p>Get credentials from: <a href="https://dev.twitch.tv/console" target="_blank" rel="noopener noreferrer">Twitch Developer Console</a></p>
-          </div>
-        )}
+  <div className="container">
+    <h1 className="main-title">My Nintendo Switch Game Library</h1>
+    
+    {/* Remove the old API status display and replace with subtle indicator */}
+    {apiStatus === 'authenticated' && (
+      <div className="api-status-indicator">
+        <span className="api-status-dot"></span>
+        <span className="api-status-text">Search enabled</span>
       </div>
+    )}
+    
+    {apiStatus === 'no_credentials' && (
+      <div className="api-status-indicator warning">
+        <span className="api-status-dot"></span>
+        <span className="api-status-text">
+          Search disabled - <a href="https://dev.twitch.tv/console" target="_blank" rel="noopener noreferrer">Add API credentials</a>
+        </span>
+      </div>
+    )}
+    
+    {apiStatus === 'auth_failed' && (
+      <div className="api-status-indicator error">
+        <span className="api-status-dot"></span>
+        <span className="api-status-text">Search unavailable - Check API credentials</span>
+      </div>
+    )}
             
-      {error && (
-        <div className="error-message">
-          <p>{error}</p>
-          <button onClick={fetchGames} className="retry-button">Try again</button>
-        </div>
-      )}
+    {error && (
+      <div className="error-message">
+        <p>{error}</p>
+        <button onClick={fetchGames} className="retry-button">Try again</button>
+      </div>
+    )}
 
-      <div className="add-game-form">
-        <h2>Add new game</h2>
-        <div className="form-grid">
-          <div className="form-group search-container" ref={dropdownRef}>
-            {/* <label>Search Game *</label> */}
-            <div className="search-input-wrapper">
-              <input 
-                type="text" 
-                name="title" 
-                value={newGame.title} 
-                onChange={handleSearchInputChange}
-                placeholder="Start typing to search Nintendo Switch games..."
-                className="search-input"
-                disabled={apiStatus !== 'authenticated'}
-              />
-              {searching && <div className="search-spinner">🔍</div>}
-              
-              {showDropdown && searchResults.length > 0 && (
-                <div className="search-dropdown">
-                  {searchResults.map((game) => (
-                    <div 
-                      key={game.id} 
-                      className="search-result-item"
-                      onClick={() => handleGameSelect(game)}
-                    >
-                      <div className="search-result-image">
-                        {game.cover ? (
-                          <img 
-                            src={`https:${game.cover.url.replace('t_thumb', 't_cover_small')}`} 
-                            alt={game.name}
-                            onError={(e) => {
-                              e.target.style.display = 'none';
-                              e.target.nextSibling.style.display = 'flex';
-                            }}
-                          />
-                        ) : null}
-                        <div className="no-search-image" style={{ display: game.cover ? 'none' : 'flex' }}>
-                          No Image
-                        </div>
-                      </div>
-                      <div className="search-result-info">
-                        <div className="search-result-title">{game.name}</div>
-                        {game.first_release_date && (
-                          <div className="search-result-year">
-                            {new Date(game.first_release_date * 1000).getFullYear()}
-                          </div>
-                        )}
+    <div className="add-game-form">
+      <h2>Add new game</h2>
+      <div className="form-grid">
+        <div className="form-group search-container" ref={dropdownRef}>
+          {/* Keep your existing search input code exactly as is */}
+          <div className="search-input-wrapper">
+            <input 
+              type="text" 
+              name="title" 
+              value={newGame.title} 
+              onChange={handleSearchInputChange}
+              placeholder="Start typing to search Nintendo Switch games..."
+              className="search-input"
+              disabled={apiStatus !== 'authenticated'}
+            />
+            {searching && <div className="search-spinner">🔍</div>}
+            
+            {/* Your existing dropdown code remains exactly the same */}
+            {showDropdown && searchResults.length > 0 && (
+              <div className="search-dropdown">
+                {searchResults.map((game) => (
+                  <div 
+                    key={game.id} 
+                    className="search-result-item"
+                    onClick={() => handleGameSelect(game)}
+                  >
+                    <div className="search-result-image">
+                      {game.cover ? (
+                        <img 
+                          src={`https:${game.cover.url.replace('t_thumb', 't_cover_small')}`} 
+                          alt={game.name}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                      ) : null}
+                      <div className="no-search-image" style={{ display: game.cover ? 'none' : 'flex' }}>
+                        No Image
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                    <div className="search-result-info">
+                      <div className="search-result-title">{game.name}</div>
+                      {game.first_release_date && (
+                        <div className="search-result-year">
+                          {new Date(game.first_release_date * 1000).getFullYear()}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          {/* Status indicator positioned below the search input */}
+          <div className="search-status-area">
+            {apiStatus === 'authenticating' && (
+              <div className="search-status-message authenticating">
+                <span className="status-pulse"></span>
+                Connecting to game database...
+              </div>
+            )}
+            
             {selectedGame && (
               <div className="selected-game-info">
                 ✓ Selected: <strong>{selectedGame.name}</strong>
                 {newGame.imageUrl && <span> (Artwork loaded)</span>}
               </div>
             )}
+            
             {apiStatus !== 'authenticated' && newGame.title.length > 2 && (
               <div className="search-disabled-message">
                 Search disabled - {getApiStatusMessage()}
               </div>
             )}
           </div>
-
-          {/* <div className="form-group checkbox-group">
-            <label>
-              <input 
-                type="checkbox" 
-                name="completed" 
-                checked={newGame.completed} 
-                onChange={handleInputChange}
-              />
-              Completed
-            </label>
-          </div> */}
         </div>
 
-        <div className="form-help">
-          <p>
-            {apiStatus === 'authenticated' 
-              ? "Start typing to search for Nintendo Switch games. Select from the dropdown to auto-load artwork."
-              : "Search disabled. Add API credentials to enable game search."
-            }
-          </p>
-        </div>
-
-        <button 
-          onClick={handleAddGame}
-          className="add-game-button"
-          disabled={loading || searching || !newGame.title.trim()}
-        >
-          {searching ? 'Searching...' : loading ? 'Loading...' : 'Add Game'}
-        </button>
+        {/* <div className="form-group checkbox-group">
+          <label>
+            <input 
+              type="checkbox" 
+              name="completed" 
+              checked={newGame.completed} 
+              onChange={handleInputChange}
+            />
+            Completed
+          </label>
+        </div> */}
       </div>
 
-      {/* Rest of your component remains the same */}
+      <div className="form-help">
+        <p>
+          {apiStatus === 'authenticated' 
+            ? ""
+            : "Search disabled. Add API credentials to enable game search."
+          }
+        </p>
+      </div>
+
+      <button 
+        onClick={handleAddGame}
+        className="add-game-button"
+        disabled={loading || searching || !newGame.title.trim()}
+      >
+        {searching ? 'Searching...' : loading ? 'Loading...' : 'Add Game'}
+      </button>
+    </div>
       <div className="sort-controls">
         <label>Sort by: </label>
         <select 
