@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "json-server --watch db.json --port 3001",
-    "proxy": "node proxy.js"
+    "proxy": "node proxy.js",
+    "start": "concurrently \"npm run server\" \"npm run proxy\" \"npm run dev\"",
+    "dev:all": "concurrently \"npm run server\" \"npm run proxy\" \"npm run dev\""
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -24,6 +26,7 @@
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.1",
+    "concurrently": "^9.2.1",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.20",
