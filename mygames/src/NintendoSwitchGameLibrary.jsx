@@ -490,7 +490,7 @@ const getGameArtwork = async (gameId) => {
     {apiStatus === 'authenticated' && (
       <div className="api-status-indicator">
         <span className="api-status-dot"></span>
-        <span className="api-status-text">Search enabled</span>
+        <span className="api-status-text">API successfully connected - Search enabled</span>
       </div>
     )}
     
@@ -627,84 +627,90 @@ const getGameArtwork = async (gameId) => {
       </button>
     </div>
       <div className="sort-controls">
-        <label>Sort by: </label>
-        <select 
-          value={sortConfig.key} 
-          onChange={(e) => requestSort(e.target.value)}
-          className="sort-select"
-        >
-          <option value="title">Title</option>
-          <option value="completed">Status</option>
-        </select>
-        <button 
-          onClick={() => requestSort(sortConfig.key)}
-          className="sort-direction-button"
-        >
-          {sortConfig.direction === 'ascending' ? '↑' : '↓'}
-        </button>
-      </div>
+  <div className="counter-mini">
+    <span className="counter-mini-number">{games.length}</span>
+    <span className="counter-mini-text"> games</span>
+  </div>
+  
+  <label>Sort by: </label>
+  <select 
+    value={sortConfig.key} 
+    onChange={(e) => requestSort(e.target.value)}
+    className="sort-select"
+  >
+    <option value="title">Title</option>
+    <option value="completed">Status</option>
+  </select>
+  <button 
+    onClick={() => requestSort(sortConfig.key)}
+    className="sort-direction-button"
+  >
+    {sortConfig.direction === 'ascending' ? '↑' : '↓'}
+  </button>
+</div>
 
       <div className="games-grid-container">
-        {loading ? (
-          <div className="loading">Loading games...</div>
-        ) : (
-          <div className="games-grid">
-            {getSortedGames().map(game => (
-              <div 
-                key={game.id} 
-                className={`game-card ${game.completed ? 'completed' : ''}`}
-              >
-                <div className="game-image-container">
-                  {game.imageUrl ? (
-                    <img 
-                      src={game.imageUrl} 
-                      alt={`${game.title} cover`} 
-                      className="game-image"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'flex';
-                      }}
-                    />
-                  ) : null}
-                  <div 
-                    className="no-image-placeholder"
-                    style={{ display: game.imageUrl ? 'none' : 'flex' }}
-                  >
-                    No Image
-                  </div>
-                  
-                  <div className="game-overlay">
-                    <button 
-                      onClick={() => handleRemoveGame(game.id)}
-                      className="gallery-remove-button"
-                      title="Remove game"
-                    >
-                      ×
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="game-info">
-                  <h3 className="game-title">{game.title}</h3>
-                  <div 
-                    className={`status-badge ${game.completed ? 'completed' : 'not-completed'}`}
-                    onClick={() => toggleCompleted(game.id)}
-                  >
-                    {game.completed ? '✓ Completed' : '○ Playing'}
-                  </div>
-                </div>
-              </div>
-            ))}
+  {loading ? (
+    <div className="loading">Loading games...</div>
+  ) : (
+    <div className="games-grid">
+      {getSortedGames().map(game => (
+        <div 
+          key={game.id} 
+          className={`game-card ${game.completed ? 'completed' : ''}`}
+        >
+          <div className="game-image-container">
+            {game.imageUrl ? (
+              <img 
+                src={game.imageUrl} 
+                alt={`${game.title} cover`} 
+                className="game-image"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <div 
+              className="no-image-placeholder"
+              style={{ display: game.imageUrl ? 'none' : 'flex' }}
+            >
+              No Image
+            </div>
             
-            {games.length === 0 && !loading && (
-              <div className="empty-grid">
-                <p>No games added yet.</p>
-                <p>Add your first game above!</p>
-              </div>
-            )}
+            <div className="game-overlay">
+              <button 
+                onClick={() => handleRemoveGame(game.id)}
+                className="gallery-remove-button"
+                title="Remove game"
+              >
+                ×
+              </button>
+            </div>
           </div>
-        )}
-      </div>
+          
+          <div className="game-info">
+            <h3 className="game-title">{game.title}</h3>
+            
+            <button 
+              onClick={() => toggleCompleted(game.id)}
+              className="completion-text-toggle"
+            >
+              {game.completed ? "✓ Completed" : "○ Mark Complete"}
+            </button>
+          </div>
+        </div>
+      ))}
+      
+      {games.length === 0 && !loading && (
+        <div className="empty-grid">
+          <p>No games added yet.</p>
+          <p>Add your first game above!</p>
+        </div>
+      )}
+    </div>
+  )}
+</div>
     </div>
   );
 };

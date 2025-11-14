@@ -245,6 +245,78 @@
       "title": "Yoshi's Crafted World",
       "completed": false,
       "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co260b.jpg"
+    },
+    {
+      "id": "91e0",
+      "title": "Snoopy & The Great Mystery Club",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa9w8.jpg"
+    },
+    {
+      "id": "d39b",
+      "title": "The Garden Path",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8m13.jpg"
+    },
+    {
+      "id": "0bef",
+      "title": "Animal Crossing: New Horizons",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3wls.jpg"
+    },
+    {
+      "id": "a689",
+      "title": "Mario + Rabbids Kingdom Battle",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2274.jpg"
+    },
+    {
+      "id": "739f",
+      "title": "Super Mario Party",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1mxj.jpg"
+    },
+    {
+      "id": "fad8",
+      "title": "Once Upon a Katamari",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_1080p/ar3z78.jpg"
+    },
+    {
+      "id": "dc43",
+      "title": "LEGO Party!",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_1080p/ar4d2s.jpg"
+    },
+    {
+      "id": "7d0f",
+      "title": "Gnomdom",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8qb8.jpg"
+    },
+    {
+      "id": "078b",
+      "title": "Chicken Run: Eggstraction",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa9zk.jpg"
+    },
+    {
+      "id": "41b1",
+      "title": "Simon the Sorcerer Origins",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5l7f.jpg"
+    },
+    {
+      "id": "bb45",
+      "title": "Super Mario Odyssey",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1mxf.jpg"
+    },
+    {
+      "id": "f12d",
+      "title": "Super Smash Bros. Ultimate",
+      "completed": false,
+      "imageUrl": "https://images.igdb.com/igdb/image/upload/t_1080p/ar3p89.jpg"
     }
   ]
 }
