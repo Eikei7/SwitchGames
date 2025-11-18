@@ -25,12 +25,13 @@ const NintendoSwitchGameLibrary = () => {
   const dropdownRef = useRef(null);
   const searchTimeoutRef = useRef(null);
 
-  const API_URL = 'http://localhost:3001/games';
-  
   // Get credentials from environment variables
   const IGDB_CLIENT_ID = import.meta.env.VITE_IGDB_CLIENT_ID;
   const IGDB_CLIENT_SECRET = import.meta.env.VITE_IGDB_CLIENT_SECRET;
   const [accessToken, setAccessToken] = useState(null);
+
+  // localStorage key
+  const STORAGE_KEY = 'nintendo-switch-games';
 
   useEffect(() => {
     console.log('Environment variables:', {
@@ -61,25 +62,39 @@ const NintendoSwitchGameLibrary = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  // localStorage functions
   const fetchGames = async () => {
     try {
       setLoading(true);
-      const response = await fetch(API_URL);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
+      const storedGames = localStorage.getItem(STORAGE_KEY);
+      if (storedGames) {
+        const data = JSON.parse(storedGames);
+        setGames(data);
       }
-      
-      const data = await response.json();
-      setGames(data);
       setError(null);
     } catch (err) {
       console.error('Could not fetch game data:', err);
-      setError('Could not connect to database. Please check that JSON Server is running.');
+      setError('Could not load games from storage.');
     } finally {
       setLoading(false);
     }
   };
+
+  const saveGames = (gamesArray) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(gamesArray));
+      setGames(gamesArray);
+    } catch (err) {
+      console.error('Could not save games:', err);
+      setError('Could not save games to storage.');
+    }
+  };
+
+  const generateId = () => {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  };
+
   // Get access token from Twitch
   const getAccessToken = async () => {
     if (!IGDB_CLIENT_ID || !IGDB_CLIENT_SECRET) {
@@ -126,8 +141,8 @@ const NintendoSwitchGameLibrary = () => {
   };
 
   const searchGames = async (query) => {
-  if (!query.trim() || !accessToken || !IGDB_CLIENT_ID) {
-    console.log('Cannot search - missing requirements');
+  if (!query.trim()) {
+    console.log('No query provided');
     setSearchResults([]);
     setShowDropdown(false);
     return [];
@@ -137,78 +152,36 @@ const NintendoSwitchGameLibrary = () => {
     setSearching(true);
     console.log('Searching for:', query);
     
-    // Try multiple query approaches to get better results
-    const queries = [
-      // Original query - most restrictive
-      `fields id, name, first_release_date, platforms, cover.*;
-       search "${query}";
-       where category = 0 & platforms = (130);
-       limit 10;`,
-      
-      // Broader search - include more platforms and don't filter by category
-      `fields id, name, first_release_date, platforms, cover.*;
-       search "${query}";
-       where platforms = (130, 48, 49, 41, 37, 33);
-       limit 10;`,
-      
-      // Even broader - search all platforms but filter later
-      `fields id, name, first_release_date, platforms, cover.*;
-       search "${query}";
-       where category = (0, 2, 3, 4);
-       limit 15;`
-    ];
+    const response = await fetch('/.netlify/functions/igdb-search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          fields id, name, first_release_date, platforms, cover.*;
+          search "${query}";
+          where category = 0 & platforms = (130);
+          limit 10;
+        `
+      })
+    });
 
-    let searchData = [];
+    console.log('Search response status:', response.status);
     
-    // Try each query until we get results
-    for (const queryBody of queries) {
-      console.log('Trying query:', queryBody);
-      
-      const response = await fetch('http://localhost:3002/api/igdb/games', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          clientId: IGDB_CLIENT_ID,
-          accessToken: accessToken,
-          query: queryBody
-        })
-      });
-
-      console.log('Search response status:', response.status);
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Query failed:', errorData);
-        continue; // Try next query
-      }
-
-      const data = await response.json();
-      console.log('Search results found:', data.length);
-      
-      if (data.length > 0) {
-        searchData = data;
-        break; // We found results, stop trying other queries
-      }
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `Search failed: ${response.status}`);
     }
 
-    // Filter to only include Nintendo Switch games if we got results from broader queries
-    const nintendoSwitchGames = searchData.filter(game => 
-      game.platforms && game.platforms.includes(130)
-    );
-
-    console.log('After Nintendo Switch filter:', nintendoSwitchGames.length);
-    
-    // If no Nintendo Switch games found, show all results and mark them
-    const finalResults = nintendoSwitchGames.length > 0 ? nintendoSwitchGames : searchData;
-    
-    setSearchResults(finalResults);
-    setShowDropdown(finalResults.length > 0);
-    return finalResults;
+    const data = await response.json();
+    console.log('Search results found:', data.length);
+    setSearchResults(data);
+    setShowDropdown(data.length > 0);
+    return data;
   } catch (err) {
     console.error('Error searching games:', err);
-    setError(`Search failed: ${err.message}`);
+    setError(`Search failed: ${err.message}. Please try again.`);
     setSearchResults([]);
     setShowDropdown(false);
     return [];
@@ -218,43 +191,13 @@ const NintendoSwitchGameLibrary = () => {
 };
 
 const getGameArtwork = async (gameId) => {
-  if (!accessToken || !IGDB_CLIENT_ID) return null;
-
   try {
-    // Try artwork first
-    const artworkResponse = await fetch('http://localhost:3002/api/igdb/artwork', {
+    const response = await fetch('/.netlify/functions/igdb-covers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        clientId: IGDB_CLIENT_ID,
-        accessToken: accessToken,
-        query: `
-          fields url;
-          where game = ${gameId} & artwork_type = 3;
-          limit 1;
-        `
-      })
-    });
-
-    if (artworkResponse.ok) {
-      const artworkData = await artworkResponse.json();
-      if (artworkData.length > 0) {
-        const imageUrl = artworkData[0].url.replace('t_thumb', 't_1080p');
-        return `https:${imageUrl}`;
-      }
-    }
-
-    // Fallback to covers
-    const coverResponse = await fetch('http://localhost:3002/api/igdb/covers', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        clientId: IGDB_CLIENT_ID,
-        accessToken: accessToken,
         query: `
           fields url;
           where game = ${gameId};
@@ -263,8 +206,8 @@ const getGameArtwork = async (gameId) => {
       })
     });
 
-    if (coverResponse.ok) {
-      const coverData = await coverResponse.json();
+    if (response.ok) {
+      const coverData = await response.json();
       if (coverData.length > 0) {
         const coverUrl = coverData[0].url.replace('t_thumb', 't_cover_big');
         return `https:${coverUrl}`;
@@ -344,8 +287,9 @@ const getGameArtwork = async (gameId) => {
   const handleAddGame = async () => {
     if (newGame.title.trim()) {
       try {
-        // If no game was selected from search, try to find it automatically
         let imageUrl = newGame.imageUrl;
+        
+        // If no game was selected from search, try to find it automatically
         if (!selectedGame && !imageUrl && accessToken) {
           const searchResults = await searchGames(newGame.title);
           if (searchResults && searchResults.length > 0) {
@@ -355,23 +299,15 @@ const getGameArtwork = async (gameId) => {
         }
 
         const gameToAdd = {
-          ...newGame,
+          id: generateId(),
+          title: newGame.title,
+          completed: newGame.completed,
           imageUrl: imageUrl || ''
         };
 
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(gameToAdd),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
-
-        fetchGames();
+        // Add to localStorage
+        const updatedGames = [...games, gameToAdd];
+        saveGames(updatedGames);
         
         // Reset form
         setNewGame({
@@ -383,7 +319,7 @@ const getGameArtwork = async (gameId) => {
         setSearchResults([]);
       } catch (err) {
         console.error("Couldn't add game:", err);
-        setError("Couldn't add game. Please check that the JSON server is running.");
+        setError("Couldn't add game.");
       }
     } else {
       setError('Please add a game title.');
@@ -393,41 +329,20 @@ const getGameArtwork = async (gameId) => {
 
   const handleRemoveGame = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-
-      setGames(games.filter(game => game.id !== id));
+      const updatedGames = games.filter(game => game.id !== id);
+      saveGames(updatedGames);
     } catch (err) {
       console.error("Couldn't remove game:", err);
-      setError("Couldn't remove game. Please check that the JSON server is running.");
+      setError("Couldn't remove game.");
     }
   };
 
   const toggleCompleted = async (id) => {
     try {
-      const game = games.find(g => g.id === id);
-      const updatedGame = { ...game, completed: !game.completed };
-      
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedGame),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-
-      setGames(games.map(game => 
-        game.id === id ? updatedGame : game
-      ));
+      const updatedGames = games.map(game => 
+        game.id === id ? { ...game, completed: !game.completed } : game
+      );
+      saveGames(updatedGames);
     } catch (err) {
       console.error("Couldn't update game:", err);
       setError("Couldn't update game status.");
@@ -470,247 +385,316 @@ const getGameArtwork = async (gameId) => {
       case 'checking':
         return 'Checking API configuration...';
       case 'no_credentials':
-        return 'API credentials not found in .env file';
+        return 'API credentials not found';
       case 'authenticating':
         return 'Authenticating with IGDB API...';
       case 'authenticated':
-        return '✅ Successfully connected to IGDB API';
+        return 'Search enabled';
       case 'auth_failed':
-        return '❌ Failed to authenticate with IGDB API';
+        return 'Failed to authenticate with IGDB API';
       default:
         return '';
     }
   };
 
-  return (
-  <div className="container">
-    <h1 className="main-title">My Nintendo Switch Game Library</h1>
+  // Export/Import functionality
+  const exportGames = () => {
+    const dataStr = JSON.stringify(games, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
     
-    {/* Remove the old API status display and replace with subtle indicator */}
-    {apiStatus === 'authenticated' && (
-      <div className="api-status-indicator">
-        <span className="api-status-dot"></span>
-        <span className="api-status-text">API successfully connected - Search enabled</span>
-      </div>
-    )}
+    const exportFileDefaultName = 'nintendo-games-backup.json';
     
-    {apiStatus === 'no_credentials' && (
-      <div className="api-status-indicator warning">
-        <span className="api-status-dot"></span>
-        <span className="api-status-text">
-          Search disabled - <a href="https://dev.twitch.tv/console" target="_blank" rel="noopener noreferrer">Add API credentials</a>
-        </span>
-      </div>
-    )}
-    
-    {apiStatus === 'auth_failed' && (
-      <div className="api-status-indicator error">
-        <span className="api-status-dot"></span>
-        <span className="api-status-text">Search unavailable - Check API credentials</span>
-      </div>
-    )}
-            
-    {error && (
-      <div className="error-message">
-        <p>{error}</p>
-        <button onClick={fetchGames} className="retry-button">Try again</button>
-      </div>
-    )}
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+  };
 
-    <div className="add-game-form">
-      <h2>Add new game</h2>
-      <div className="form-grid">
-        <div className="form-group search-container" ref={dropdownRef}>
-          {/* Keep your existing search input code exactly as is */}
-          <div className="search-input-wrapper">
-            <input 
-              type="text" 
-              name="title" 
-              value={newGame.title} 
-              onChange={handleSearchInputChange}
-              placeholder="Start typing to search Nintendo Switch games..."
-              className="search-input"
-              disabled={apiStatus !== 'authenticated'}
-            />
-            {searching && <div className="search-spinner">🔍</div>}
-            
-            {/* Your existing dropdown code remains exactly the same */}
-            {showDropdown && searchResults.length > 0 && (
-              <div className="search-dropdown">
-                {searchResults.map((game) => (
-                  <div 
-                    key={game.id} 
-                    className="search-result-item"
-                    onClick={() => handleGameSelect(game)}
-                  >
-                    <div className="search-result-image">
-                      {game.cover ? (
-                        <img 
-                          src={`https:${game.cover.url.replace('t_thumb', 't_cover_small')}`} 
-                          alt={game.name}
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
-                          }}
-                        />
-                      ) : null}
-                      <div className="no-search-image" style={{ display: game.cover ? 'none' : 'flex' }}>
-                        No Image
-                      </div>
-                    </div>
-                    <div className="search-result-info">
-                      <div className="search-result-title">{game.name}</div>
-                      {game.first_release_date && (
-                        <div className="search-result-year">
-                          {new Date(game.first_release_date * 1000).getFullYear()}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          
-          {/* Status indicator positioned below the search input */}
-          <div className="search-status-area">
-            {apiStatus === 'authenticating' && (
-              <div className="search-status-message authenticating">
-                <span className="status-pulse"></span>
-                Connecting to game database...
-              </div>
-            )}
-            
-            {selectedGame && (
-              <div className="selected-game-info">
-                ✓ Selected: <strong>{selectedGame.name}</strong>
-                {newGame.imageUrl && <span> (Artwork loaded)</span>}
-              </div>
-            )}
-            
-            {apiStatus !== 'authenticated' && newGame.title.length > 2 && (
-              <div className="search-disabled-message">
-                Search disabled - {getApiStatusMessage()}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* <div className="form-group checkbox-group">
-          <label>
-            <input 
-              type="checkbox" 
-              name="completed" 
-              checked={newGame.completed} 
-              onChange={handleInputChange}
-            />
-            Completed
-          </label>
-        </div> */}
-      </div>
-
-      <div className="form-help">
-        <p>
-          {apiStatus === 'authenticated' 
-            ? ""
-            : "Search disabled. Add API credentials to enable game search."
+  const importGames = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const importedGames = JSON.parse(e.target.result);
+          if (Array.isArray(importedGames)) {
+            saveGames(importedGames);
+            setError('Games imported successfully!');
+            setTimeout(() => setError(null), 3000);
+          } else {
+            setError('Invalid file format');
           }
-        </p>
+        } catch (err) {
+          setError('Error reading file');
+        }
+      };
+      reader.readAsText(file);
+    }
+    // Reset input
+    event.target.value = '';
+  };
+
+  return (
+    <div className="container">
+      <h1 className="main-title">My Nintendo Switch Game Library</h1>
+      
+      {/* Game Counter */}
+      <div className="game-counter">
+        <div className="counter-card">
+          <div className="counter-number">{games.length}</div>
+          <div className="counter-label">Games in Library</div>
+          {games.length > 0 && (
+            <div className="counter-stats">
+              <span className="stat completed">
+                {games.filter(game => game.completed).length} completed
+              </span>
+              <span className="stat playing">
+                {games.filter(game => !game.completed).length} playing
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
-      <button 
-        onClick={handleAddGame}
-        className="add-game-button"
-        disabled={loading || searching || !newGame.title.trim()}
-      >
-        {searching ? 'Searching...' : loading ? 'Loading...' : 'Add Game'}
-      </button>
-    </div>
-      <div className="sort-controls">
-  <div className="counter-mini">
-    <span className="counter-mini-number">{games.length}</span>
-    <span className="counter-mini-text"> games</span>
-  </div>
-  
-  <label>Sort by: </label>
-  <select 
-    value={sortConfig.key} 
-    onChange={(e) => requestSort(e.target.value)}
-    className="sort-select"
-  >
-    <option value="title">Title</option>
-    <option value="completed">Status</option>
-  </select>
-  <button 
-    onClick={() => requestSort(sortConfig.key)}
-    className="sort-direction-button"
-  >
-    {sortConfig.direction === 'ascending' ? '↑' : '↓'}
-  </button>
-</div>
-
-      <div className="games-grid-container">
-  {loading ? (
-    <div className="loading">Loading games...</div>
-  ) : (
-    <div className="games-grid">
-      {getSortedGames().map(game => (
-        <div 
-          key={game.id} 
-          className={`game-card ${game.completed ? 'completed' : ''}`}
-        >
-          <div className="game-image-container">
-            {game.imageUrl ? (
-              <img 
-                src={game.imageUrl} 
-                alt={`${game.title} cover`} 
-                className="game-image"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-            ) : null}
-            <div 
-              className="no-image-placeholder"
-              style={{ display: game.imageUrl ? 'none' : 'flex' }}
-            >
-              No Image
-            </div>
-            
-            <div className="game-overlay">
-              <button 
-                onClick={() => handleRemoveGame(game.id)}
-                className="gallery-remove-button"
-                title="Remove game"
-              >
-                ×
-              </button>
-            </div>
-          </div>
-          
-          <div className="game-info">
-            <h3 className="game-title">{game.title}</h3>
-            
-            <button 
-              onClick={() => toggleCompleted(game.id)}
-              className="completion-text-toggle"
-            >
-              {game.completed ? "✓ Completed" : "○ Mark Complete"}
-            </button>
-          </div>
-        </div>
-      ))}
-      
-      {games.length === 0 && !loading && (
-        <div className="empty-grid">
-          <p>No games added yet.</p>
-          <p>Add your first game above!</p>
+      {/* Backup/Restore Buttons */}
+      {games.length > 0 && (
+        <div className="backup-controls">
+          <button onClick={exportGames} className="backup-button">
+            Export Games
+          </button>
+          <label className="import-button">
+            Import Games
+            <input 
+              type="file" 
+              accept=".json" 
+              onChange={importGames}
+              style={{ display: 'none' }}
+            />
+          </label>
         </div>
       )}
-    </div>
-  )}
-</div>
+      
+      {/* API Status Display */}
+      {apiStatus === 'authenticated' && (
+        <div className="api-status-indicator">
+          <span className="api-status-dot"></span>
+          <span className="api-status-text">Search enabled</span>
+        </div>
+      )}
+      
+      {apiStatus === 'no_credentials' && (
+        <div className="api-status-indicator warning">
+          <span className="api-status-dot"></span>
+          <span className="api-status-text">
+            Search disabled - <a href="https://dev.twitch.tv/console" target="_blank" rel="noopener noreferrer">Add API credentials</a>
+          </span>
+        </div>
+      )}
+      
+      {apiStatus === 'auth_failed' && (
+        <div className="api-status-indicator error">
+          <span className="api-status-dot"></span>
+          <span className="api-status-text">Search unavailable - Check API credentials</span>
+        </div>
+      )}
+            
+      {error && (
+        <div className="error-message">
+          <p>{error}</p>
+          <button onClick={fetchGames} className="retry-button">Try again</button>
+        </div>
+      )}
+
+      <div className="add-game-form">
+        <h2>Add new game</h2>
+        <div className="form-grid">
+          <div className="form-group search-container" ref={dropdownRef}>
+            <div className="search-input-wrapper">
+              <input 
+                type="text" 
+                name="title" 
+                value={newGame.title} 
+                onChange={handleSearchInputChange}
+                placeholder="Start typing to search Nintendo Switch games..."
+                className="search-input"
+                disabled={apiStatus !== 'authenticated'}
+              />
+              {searching && <div className="search-spinner">🔍</div>}
+              
+              {showDropdown && searchResults.length > 0 && (
+                <div className="search-dropdown">
+                  {searchResults.map((game) => (
+                    <div 
+                      key={game.id} 
+                      className="search-result-item"
+                      onClick={() => handleGameSelect(game)}
+                    >
+                      <div className="search-result-image">
+                        {game.cover ? (
+                          <img 
+                            src={`https:${game.cover.url.replace('t_thumb', 't_cover_small')}`} 
+                            alt={game.name}
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              e.target.nextSibling.style.display = 'flex';
+                            }}
+                          />
+                        ) : null}
+                        <div className="no-search-image" style={{ display: game.cover ? 'none' : 'flex' }}>
+                          No Image
+                        </div>
+                      </div>
+                      <div className="search-result-info">
+                        <div className="search-result-title">{game.name}</div>
+                        {game.first_release_date && (
+                          <div className="search-result-year">
+                            {new Date(game.first_release_date * 1000).getFullYear()}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            <div className="search-status-area">
+              {apiStatus === 'authenticating' && (
+                <div className="search-status-message authenticating">
+                  <span className="status-pulse"></span>
+                  Connecting to game database...
+                </div>
+              )}
+              
+              {selectedGame && (
+                <div className="selected-game-info">
+                  ✓ Selected: <strong>{selectedGame.name}</strong>
+                  {newGame.imageUrl && <span> (Artwork loaded)</span>}
+                </div>
+              )}
+              
+              {apiStatus !== 'authenticated' && newGame.title.length > 2 && (
+                <div className="search-disabled-message">
+                  Search disabled - {getApiStatusMessage()}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="form-help">
+          <p>
+            {apiStatus === 'authenticated' 
+              ? ""
+              : "Search disabled. Add API credentials to enable game search."
+            }
+          </p>
+        </div>
+
+        <button 
+          onClick={handleAddGame}
+          className="add-game-button"
+          disabled={loading || searching || !newGame.title.trim()}
+        >
+          {searching ? 'Searching...' : loading ? 'Loading...' : 'Add Game'}
+        </button>
+      </div>
+
+      <div className="sort-controls">
+        <div className="counter-mini">
+          <span className="counter-mini-number">{games.length}</span>
+          <span className="counter-mini-text">games</span>
+        </div>
+        
+        <label>Sort by: </label>
+        <select 
+          value={sortConfig.key} 
+          onChange={(e) => requestSort(e.target.value)}
+          className="sort-select"
+        >
+          <option value="title">Title</option>
+          <option value="completed">Status</option>
+        </select>
+        <button 
+          onClick={() => requestSort(sortConfig.key)}
+          className="sort-direction-button"
+        >
+          {sortConfig.direction === 'ascending' ? '↑' : '↓'}
+        </button>
+      </div>
+
+      <div className="games-grid-container">
+        {loading ? (
+          <div className="loading">Loading games...</div>
+        ) : (
+          <div className="games-grid">
+            {getSortedGames().map(game => (
+              <div 
+                key={game.id} 
+                className={`game-card ${game.completed ? 'completed' : ''}`}
+              >
+                <div className="game-image-container">
+                  {game.imageUrl ? (
+                    <img 
+                      src={game.imageUrl} 
+                      alt={`${game.title} cover`} 
+                      className="game-image"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  <div 
+                    className="no-image-placeholder"
+                    style={{ display: game.imageUrl ? 'none' : 'flex' }}
+                  >
+                    No Image
+                  </div>
+                  
+                  <div className="game-overlay">
+                    <button 
+                      onClick={() => handleRemoveGame(game.id)}
+                      className="gallery-remove-button"
+                      title="Remove game"
+                    >
+                      ×
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="game-info">
+                  <h3 className="game-title">{game.title}</h3>
+                  
+                  <button 
+                    onClick={() => toggleCompleted(game.id)}
+                    className={`completion-toggle ${game.completed ? 'completed' : 'not-completed'}`}
+                  >
+                    {game.completed ? (
+                      <>
+                        <span className="toggle-icon">✓</span>
+                        Completed
+                      </>
+                    ) : (
+                      <>
+                        <span className="toggle-icon">○</span>
+                        Mark Complete
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            ))}
+            
+            {games.length === 0 && !loading && (
+              <div className="empty-grid">
+                <p>No games added yet.</p>
+                <p>Add your first game above!</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
