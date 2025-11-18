@@ -161,11 +161,12 @@ const NintendoSwitchGameLibrary = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        searchTerm: query,
         query: `
           fields id, name, first_release_date, platforms, cover.*;
           search "${query}";
-          where category = 0 & platforms = (130);
-          limit 10;
+          where category = 0;
+          limit 20;
         `
       })
     });
@@ -178,10 +179,19 @@ const NintendoSwitchGameLibrary = () => {
     }
 
     const data = await response.json();
+    console.log('Raw search results:', data);
     console.log('Search results found:', data.length);
-    setSearchResults(data);
-    setShowDropdown(data.length > 0);
-    return data;
+    
+    // Filter for Nintendo Switch games manually
+    const nintendoSwitchGames = data.filter(game => 
+      game.platforms && game.platforms.includes(130)
+    );
+    
+    console.log('Nintendo Switch games:', nintendoSwitchGames.length);
+    
+    setSearchResults(nintendoSwitchGames);
+    setShowDropdown(nintendoSwitchGames.length > 0);
+    return nintendoSwitchGames;
   } catch (err) {
     console.error('Error searching games:', err);
     setError(`Search failed: ${err.message}. Please try again.`);

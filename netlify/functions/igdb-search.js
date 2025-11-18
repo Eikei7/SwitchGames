@@ -1,14 +1,44 @@
+// netlify/functions/igdb-search.js
+const fetch = require('node-fetch');
+
 exports.handler = async (event) => {
-  // Only allow POST requests
+  // Handle CORS preflight request
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+      },
+      body: ''
+    };
+  }
+
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
       body: JSON.stringify({ error: 'Method not allowed' })
     };
   }
 
   try {
-    const { query } = JSON.parse(event.body);
+    const { query, searchTerm } = JSON.parse(event.body);
+    
+    console.log('Received search for:', searchTerm);
+    
+    // Use the provided query or create a more flexible one
+    const igdbQuery = query || `
+      fields id, name, first_release_date, platforms, cover.*;
+      search "${searchTerm}";
+      where category = 0 & platforms = (130);
+      limit 10;
+    `;
+
+    console.log('Sending query to IGDB:', igdbQuery);
     
     const response = await fetch('https://api.igdb.com/v4/games', {
       method: 'POST',
@@ -17,29 +47,35 @@ exports.handler = async (event) => {
         'Authorization': `Bearer ${process.env.VITE_IGDB_ACCESS_TOKEN}`,
         'Content-Type': 'application/json',
       },
-      body: query
+      body: igdbQuery
     });
 
+    console.log('IGDB response status:', response.status);
+    
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('IGDB API error:', errorText);
       throw new Error(`IGDB API error: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log('IGDB returned:', data.length, 'results');
     
     return {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)
     };
   } catch (error) {
+    console.error('Function error:', error);
     return {
       statusCode: 500,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ error: error.message })
     };
