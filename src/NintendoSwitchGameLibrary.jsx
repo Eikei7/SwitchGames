@@ -435,8 +435,6 @@ const getGameArtwork = async (gameId) => {
       {/* Game Counter */}
       <div className="game-counter">
         <div className="counter-card">
-          <div className="counter-number">{games.length}</div>
-          <div className="counter-label">Games in Library</div>
           {games.length > 0 && (
             <div className="counter-stats">
               <span className="stat completed">
@@ -451,7 +449,7 @@ const getGameArtwork = async (gameId) => {
       </div>
 
       {/* Backup/Restore Buttons */}
-      {games.length > 0 && (
+      {games.length > -1 && (
         <div className="backup-controls">
           <button onClick={exportGames} className="backup-button">
             Export Games
