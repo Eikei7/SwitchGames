@@ -22,6 +22,7 @@ const NintendoSwitchGameLibrary = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedGame, setSelectedGame] = useState(null);
   const [apiStatus, setApiStatus] = useState('checking');
+  const [apiReady, setApiReady] = useState(false);
   const dropdownRef = useRef(null);
   const searchTimeoutRef = useRef(null);
 
@@ -42,12 +43,14 @@ const NintendoSwitchGameLibrary = () => {
     });
     
     fetchGames();
-    if (IGDB_CLIENT_ID && IGDB_CLIENT_SECRET) {
-      getAccessToken();
-    } else {
-      setApiStatus('no_credentials');
-    }
-  }, []);
+    // Just check if client ID exists, don't try to get access token
+  if (IGDB_CLIENT_ID) {
+    setApiReady(true);
+    setApiStatus('authenticated');
+  } else {
+    setApiStatus('no_credentials');
+  }
+}, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -437,7 +440,12 @@ const getGameArtwork = async (gameId) => {
   return (
     <div className="container">
       <h1 className="main-title">My Nintendo Switch Game Library</h1>
-      
+      <div className="debug-info" style={{background: '#2a2a2a', padding: '10px', margin: '10px 0', borderRadius: '8px', fontSize: '12px'}}>
+  <strong>Debug Info:</strong><br/>
+  Client ID: {IGDB_CLIENT_ID ? '✅ Set' : '❌ Missing'}<br/>
+  Access Token: {accessToken ? '✅ Set' : '❌ Missing'}<br/>
+  API Status: {apiStatus}
+</div>
       {/* Game Counter */}
       <div className="game-counter">
         <div className="counter-card">
@@ -517,7 +525,7 @@ const getGameArtwork = async (gameId) => {
                 onChange={handleSearchInputChange}
                 placeholder="Start typing to search Nintendo Switch games..."
                 className="search-input"
-                disabled={apiStatus !== 'authenticated'}
+                disabled={!apiReady}
               />
               {searching && <div className="search-spinner">🔍</div>}
               
