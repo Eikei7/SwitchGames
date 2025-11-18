@@ -145,7 +145,6 @@ const NintendoSwitchGameLibrary = () => {
 
   const searchGames = async (query) => {
   if (!query.trim()) {
-    console.log('No query provided');
     setSearchResults([]);
     setShowDropdown(false);
     return [];
@@ -153,7 +152,6 @@ const NintendoSwitchGameLibrary = () => {
 
   try {
     setSearching(true);
-    console.log('Searching for:', query);
     
     const response = await fetch('/.netlify/functions/igdb-search', {
       method: 'POST',
@@ -161,40 +159,24 @@ const NintendoSwitchGameLibrary = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        searchTerm: query,
-        query: `
-          fields id, name, first_release_date, platforms, cover.*;
-          search "${query}";
-          where category = 0;
-          limit 20;
-        `
+        searchTerm: query
       })
     });
 
-    console.log('Search response status:', response.status);
-    
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.error || `Search failed: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log('Raw search results:', data);
-    console.log('Search results found:', data.length);
     
-    // Filter for Nintendo Switch games manually
-    const nintendoSwitchGames = data.filter(game => 
-      game.platforms && game.platforms.includes(130)
-    );
-    
-    console.log('Nintendo Switch games:', nintendoSwitchGames.length);
-    
-    setSearchResults(nintendoSwitchGames);
-    setShowDropdown(nintendoSwitchGames.length > 0);
-    return nintendoSwitchGames;
+    // Show whatever results we get
+    setSearchResults(data);
+    setShowDropdown(data.length > 0);
+    return data;
   } catch (err) {
     console.error('Error searching games:', err);
-    setError(`Search failed: ${err.message}. Please try again.`);
+    setError(`Search failed: ${err.message}`);
     setSearchResults([]);
     setShowDropdown(false);
     return [];
