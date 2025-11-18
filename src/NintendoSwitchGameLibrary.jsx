@@ -450,12 +450,6 @@ const getGameArtwork = async (gameId) => {
   return (
     <div className="container">
       <h1 className="main-title">My Nintendo Switch Game Library</h1>
-      <div className="debug-info" style={{background: '#2a2a2a', padding: '10px', margin: '10px 0', borderRadius: '8px', fontSize: '12px'}}>
-  <strong>Debug Info:</strong><br/>
-  Client ID: {IGDB_CLIENT_ID ? '✅ Set' : '❌ Missing'}<br/>
-  Access Token: {accessToken ? '✅ Set' : '❌ Missing'}<br/>
-  API Status: {apiStatus}
-</div>
       {/* Game Counter */}
       <div className="game-counter">
         <div className="counter-card">

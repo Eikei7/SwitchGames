@@ -1,6 +1,12 @@
 // netlify/functions/igdb-search.js
 
 exports.handler = async (event) => {
+  console.log('Environment Variables:', {
+  hasClientId: !!process.env.VITE_IGDB_CLIENT_ID,
+  hasAccessToken: !!process.env.VITE_IGDB_ACCESS_TOKEN,
+  clientIdLength: process.env.VITE_IGDB_CLIENT_ID?.length,
+  accessTokenLength: process.env.VITE_IGDB_ACCESS_TOKEN?.length
+});
   // Handle CORS preflight request
   if (event.httpMethod === 'OPTIONS') {
     return {
