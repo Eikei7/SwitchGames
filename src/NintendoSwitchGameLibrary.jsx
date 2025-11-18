@@ -397,8 +397,11 @@ const getGameArtwork = async (gameId) => {
   const exportGames = () => {
   const dataStr = JSON.stringify(games, null, 2);
   const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+  const today = new Date();
+  const dateString = today.toISOString().split('T')[0];
   
-  const exportFileDefaultName = 'nintendo-games-backup.json';
+  const exportFileDefaultName = `nintendo-games-backup-${dateString}.json`;
   
   const linkElement = document.createElement('a');
   linkElement.setAttribute('href', dataUri);
