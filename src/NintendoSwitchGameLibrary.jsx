@@ -5,6 +5,7 @@ const NintendoSwitchGameLibrary = () => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [searching, setSearching] = useState(false);
 
   const [sortConfig, setSortConfig] = useState({
@@ -394,16 +395,19 @@ const getGameArtwork = async (gameId) => {
 
   // Export/Import functionality
   const exportGames = () => {
-    const dataStr = JSON.stringify(games, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = 'nintendo-games-backup.json';
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
-  };
+  const dataStr = JSON.stringify(games, null, 2);
+  const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+  
+  const exportFileDefaultName = 'nintendo-games-backup.json';
+  
+  const linkElement = document.createElement('a');
+  linkElement.setAttribute('href', dataUri);
+  linkElement.setAttribute('download', exportFileDefaultName);
+  linkElement.click();
+  
+  setSuccess(`${games.length} games exported successfully!`);
+  setTimeout(() => setSuccess(null), 3000);
+};
 
   const importGames = (event) => {
     const file = event.target.files[0];
@@ -414,8 +418,8 @@ const getGameArtwork = async (gameId) => {
           const importedGames = JSON.parse(e.target.result);
           if (Array.isArray(importedGames)) {
             saveGames(importedGames);
-            setError('Games imported successfully!');
-            setTimeout(() => setError(null), 3000);
+            setSuccess('Games imported successfully!');
+            setTimeout(() => setSuccess(null), 3000);
           } else {
             setError('Invalid file format');
           }
@@ -432,40 +436,7 @@ const getGameArtwork = async (gameId) => {
   return (
     <div className="container">
       <h1 className="main-title">My Nintendo Switch Game Library</h1>
-      {/* Game Counter */}
-      <div className="game-counter">
-        <div className="counter-card">
-          {games.length > 0 && (
-            <div className="counter-stats">
-              <span className="stat completed">
-                {games.filter(game => game.completed).length} completed
-              </span>
-              <span className="stat playing">
-                {games.filter(game => !game.completed).length} playing
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Backup/Restore Buttons */}
-      {games.length > -1 && (
-        <div className="backup-controls">
-          <button onClick={exportGames} className="backup-button">
-            Export Games
-          </button>
-          <label className="import-button">
-            Import Games
-            <input 
-              type="file" 
-              accept=".json" 
-              onChange={importGames}
-              style={{ display: 'none' }}
-            />
-          </label>
-        </div>
-      )}
-      
+   
       {/* API Status Display */}
       {apiStatus === 'authenticated' && (
         <div className="api-status-indicator">
@@ -490,15 +461,14 @@ const getGameArtwork = async (gameId) => {
         </div>
       )}
             
-      {error && (
-        <div className="error-message">
-          <p>{error}</p>
-          <button onClick={fetchGames} className="retry-button">Try again</button>
+      {(error || success) && (
+        <div className={`message ${error ? 'error' : 'success'}`}>
+          <p>{error || success}</p>
+          {error && <button onClick={fetchGames} className="retry-button">Try again</button>}
         </div>
       )}
 
       <div className="add-game-form">
-        <h2>Add new game</h2>
         <div className="form-grid">
           <div className="form-group search-container" ref={dropdownRef}>
             <div className="search-input-wrapper">
@@ -591,8 +561,9 @@ const getGameArtwork = async (gameId) => {
           {searching ? 'Searching...' : loading ? 'Loading...' : 'Add Game'}
         </button>
       </div>
-
+      
       <div className="sort-controls">
+        
         <div className="counter-mini">
           <span className="counter-mini-number">{games.length}</span>
           <span className="counter-mini-text">games</span>
@@ -613,6 +584,25 @@ const getGameArtwork = async (gameId) => {
         >
           {sortConfig.direction === 'ascending' ? '↑' : '↓'}
         </button>
+        
+        
+        {games.length > -1 && (
+        <div className="backup-controls">
+          <button onClick={exportGames} className="backup-button">
+            Export list
+          </button>
+          <label className="import-button">
+            Import existing list
+            <input 
+              type="file" 
+              accept=".json" 
+              onChange={importGames}
+              style={{ display: 'none' }}
+            />
+          </label>
+        </div>
+      )}
+        
       </div>
 
       <div className="games-grid-container">
