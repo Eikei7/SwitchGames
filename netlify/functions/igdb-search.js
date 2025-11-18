@@ -1,5 +1,4 @@
 // netlify/functions/igdb-search.js
-const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
   // Handle CORS preflight request
@@ -30,16 +29,6 @@ exports.handler = async (event) => {
     
     console.log('Received search for:', searchTerm);
     
-    // Use the provided query or create a more flexible one
-    const igdbQuery = query || `
-      fields id, name, first_release_date, platforms, cover.*;
-      search "${searchTerm}";
-      where category = 0 & platforms = (130);
-      limit 10;
-    `;
-
-    console.log('Sending query to IGDB:', igdbQuery);
-    
     const response = await fetch('https://api.igdb.com/v4/games', {
       method: 'POST',
       headers: {
@@ -47,14 +36,17 @@ exports.handler = async (event) => {
         'Authorization': `Bearer ${process.env.VITE_IGDB_ACCESS_TOKEN}`,
         'Content-Type': 'application/json',
       },
-      body: igdbQuery
+      body: query || `
+        fields id, name, first_release_date, platforms, cover.*;
+        search "${searchTerm}";
+        where category = 0 & platforms = (130);
+        limit 10;
+      `
     });
 
     console.log('IGDB response status:', response.status);
     
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('IGDB API error:', errorText);
       throw new Error(`IGDB API error: ${response.status}`);
     }
 
