@@ -444,7 +444,7 @@ const getGameArtwork = async (gameId) => {
       {apiStatus === 'authenticated' && (
         <div className="api-status-indicator">
           <span className="api-status-dot"></span>
-          <span className="api-status-text">Search enabled</span>
+          <span className="api-status-text">Database is Online</span>
         </div>
       )}
       
@@ -480,7 +480,7 @@ const getGameArtwork = async (gameId) => {
                 name="title" 
                 value={newGame.title} 
                 onChange={handleSearchInputChange}
-                placeholder="Start typing to search Nintendo Switch games..."
+                placeholder="Start typing to search for games..."
                 className="search-input"
                 disabled={!apiReady}
               />
@@ -657,12 +657,12 @@ const getGameArtwork = async (gameId) => {
                   >
                     {game.completed ? (
                       <>
-                        <span className="toggle-icon">✓</span>
+                        <span className="toggle-icon">✓ </span>
                         Completed
                       </>
                     ) : (
                       <>
-                        <span className="toggle-icon">○</span>
+                        <span className="toggle-icon">○ </span>
                         Mark Complete
                       </>
                     )}
