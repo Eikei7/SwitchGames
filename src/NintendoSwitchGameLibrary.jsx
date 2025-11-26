@@ -651,8 +651,14 @@ const getGameArtwork = async (gameId) => {
                 </div>
                 
                 <div className="game-info">
-                  <h3 className="game-title">{game.title}</h3>
-                  
+                  <div className="game-header">
+    <h3 className="game-title">{game.title}</h3>
+    {game.first_release_date && (
+      <span className="game-year">
+        ({new Date(game.first_release_date * 1000).getFullYear()})
+      </span>
+    )}
+  </div>
                   <button 
                     onClick={() => toggleCompleted(game.id)}
                     className={`completion-toggle ${game.completed ? 'completed' : 'not-completed'}`}
