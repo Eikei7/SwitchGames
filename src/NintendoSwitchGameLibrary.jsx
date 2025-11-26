@@ -439,9 +439,11 @@ const getGameArtwork = async (gameId) => {
   return (
     <div className="container">
       <h1 className="main-title">My Nintendo Switch Game Library</h1>
-   
-      {/* API Status Display */}
-      {apiStatus === 'authenticated' && (
+    <div className="app-description">
+      <p>Track your Nintendo Switch game collection, mark completed titles, and automatically fetch beautiful box art. Your library saves directly in your browser - no account needed!</p>
+    </div>
+
+      {/* {apiStatus === 'authenticated' && (
         <div className="api-status-indicator">
           <span className="api-status-dot"></span>
           <span className="api-status-text">Database is Online</span>
@@ -462,7 +464,7 @@ const getGameArtwork = async (gameId) => {
           <span className="api-status-dot"></span>
           <span className="api-status-text">Search unavailable - Check API credentials</span>
         </div>
-      )}
+      )} */}
             
       {(error || success) && (
         <div className={`message ${error ? 'error' : 'success'}`}>
