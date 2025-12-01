@@ -7,8 +7,8 @@ function App() {
   return (
     <>
       <NintendoSwitchGameLibrary />
-      <PCGameLibrary />
-    </>
+      <PCGameLibrary />    
+      </>
   )
 }
 
