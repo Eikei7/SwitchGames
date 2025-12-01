@@ -1,6 +1,6 @@
 import './App.css'
 import NintendoSwitchGameLibrary from './NintendoSwitchGameLibrary'
-import PCGameLibrary from './PcGameLibrary'
+import PCGameLibrary from './PCGameLibrary'
 
 function App() {
 

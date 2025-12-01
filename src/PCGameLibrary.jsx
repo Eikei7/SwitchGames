@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './PCGameLibrary.css';
 
-const PcGameLibrary = () => {
+const PCGameLibrary = () => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -701,4 +701,4 @@ const formatFullDate = (timestamp) => {
   );
 };
 
-export default PcGameLibrary;
+export default PCGameLibrary;
