@@ -251,26 +251,34 @@ const getGameArtwork = async (gameId) => {
   };
 
   const handleGameSelect = async (game) => {
-    console.log('Selected game:', game);
-    setSelectedGame(game);
-    setNewGame({
-      ...newGame,
-      title: game.name
-    });
-    setShowDropdown(false);
-    
-    // Fetch artwork for the selected game
-    if (game.id) {
-      const imageUrl = await getGameArtwork(game.id);
-      console.log('Artwork result:', imageUrl);
-      if (imageUrl) {
-        setNewGame(prev => ({
-          ...prev,
-          imageUrl: imageUrl
-        }));
-      }
+  console.log('Selected game:', game);
+  setSelectedGame(game);
+  setNewGame({
+    ...newGame,
+    title: game.name
+  });
+  setShowDropdown(false);
+  
+  // Fetch artwork for the selected game
+  if (game.id) {
+    const imageUrl = await getGameArtwork(game.id);
+    console.log('Artwork result:', imageUrl);
+    if (imageUrl) {
+      setNewGame(prev => ({
+        ...prev,
+        imageUrl: imageUrl,
+        // Store the release date if available
+        releaseDate: game.first_release_date
+      }));
+    } else {
+      // Still store release date even if no artwork
+      setNewGame(prev => ({
+        ...prev,
+        releaseDate: game.first_release_date
+      }));
     }
-  };
+  }
+};
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -281,47 +289,51 @@ const getGameArtwork = async (gameId) => {
   };
 
   const handleAddGame = async () => {
-    if (newGame.title.trim()) {
-      try {
-        let imageUrl = newGame.imageUrl;
-        
-        // If no game was selected from search, try to find it automatically
-        if (!selectedGame && !imageUrl && accessToken) {
-          const searchResults = await searchGames(newGame.title);
-          if (searchResults && searchResults.length > 0) {
-            const firstResult = searchResults[0];
-            imageUrl = await getGameArtwork(firstResult.id);
-          }
+  if (newGame.title.trim()) {
+    try {
+      let imageUrl = newGame.imageUrl;
+      let releaseDate = newGame.releaseDate;
+      
+      // If no game was selected from search, try to find it automatically
+      if (!selectedGame && !imageUrl && accessToken) {
+        const searchResults = await searchGames(newGame.title);
+        if (searchResults && searchResults.length > 0) {
+          const firstResult = searchResults[0];
+          imageUrl = await getGameArtwork(firstResult.id);
+          releaseDate = firstResult.first_release_date;
         }
-
-        const gameToAdd = {
-          id: generateId(),
-          title: newGame.title,
-          completed: newGame.completed,
-          imageUrl: imageUrl || ''
-        };
-
-        // Add to localStorage
-        const updatedGames = [...games, gameToAdd];
-        saveGames(updatedGames);
-        
-        // Reset form
-        setNewGame({
-          title: "",
-          completed: false,
-          imageUrl: ""
-        });
-        setSelectedGame(null);
-        setSearchResults([]);
-      } catch (err) {
-        console.error("Couldn't add game:", err);
-        setError("Couldn't add game.");
       }
-    } else {
-      setError('Please add a game title.');
-      setTimeout(() => setError(null), 3000);
+
+      const gameToAdd = {
+        id: generateId(),
+        title: newGame.title,
+        completed: newGame.completed,
+        imageUrl: imageUrl || '',
+        first_release_date: releaseDate || null
+      };
+
+      // Add to localStorage
+      const updatedGames = [...games, gameToAdd];
+      saveGames(updatedGames);
+      
+      // Reset form
+      setNewGame({
+        title: "",
+        completed: false,
+        imageUrl: "",
+        releaseDate: null
+      });
+      setSelectedGame(null);
+      setSearchResults([]);
+    } catch (err) {
+      console.error("Couldn't add game:", err);
+      setError("Couldn't add game.");
     }
-  };
+  } else {
+    setError('Please add a game title.');
+    setTimeout(() => setError(null), 3000);
+  }
+};
 
   const handleRemoveGame = async (id) => {
     try {
@@ -436,35 +448,31 @@ const getGameArtwork = async (gameId) => {
     event.target.value = '';
   };
 
+  const formatReleaseYear = (timestamp) => {
+  if (!timestamp) return 'TBA';
+  
+  // IGDB timestamps are in seconds, JavaScript Date uses milliseconds
+  const date = new Date(timestamp * 1000);
+  return date.getFullYear();
+};
+
+const formatFullDate = (timestamp) => {
+  if (!timestamp) return 'TBA';
+  
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+};
+
   return (
     <div className="container">
       <h1 className="main-title">My Nintendo Switch Game Library</h1>
     <div className="app-description">
       <p>Track your Nintendo Switch game collection, mark completed titles, and automatically fetch beautiful box art. Your library saves directly in your browser - no account needed!</p>
     </div>
-
-      {/* {apiStatus === 'authenticated' && (
-        <div className="api-status-indicator">
-          <span className="api-status-dot"></span>
-          <span className="api-status-text">Database is Online</span>
-        </div>
-      )}
-      
-      {apiStatus === 'no_credentials' && (
-        <div className="api-status-indicator warning">
-          <span className="api-status-dot"></span>
-          <span className="api-status-text">
-            Search disabled - <a href="https://dev.twitch.tv/console" target="_blank" rel="noopener noreferrer">Add API credentials</a>
-          </span>
-        </div>
-      )}
-      
-      {apiStatus === 'auth_failed' && (
-        <div className="api-status-indicator error">
-          <span className="api-status-dot"></span>
-          <span className="api-status-text">Search unavailable - Check API credentials</span>
-        </div>
-      )} */}
             
       {(error || success) && (
         <div className={`message ${error ? 'error' : 'success'}`}>
@@ -652,25 +660,26 @@ const getGameArtwork = async (gameId) => {
                 
                 <div className="game-info">
                   <div className="game-header">
-    <h3 className="game-title">{game.title}</h3>
-    {game.first_release_date && (
-      <span className="game-year">
-        ({new Date(game.first_release_date * 1000).getFullYear()})
-      </span>
-    )}
-  </div>
+                    <h3 className="game-title">{game.title}</h3>
+                    {game.first_release_date && (
+                      <span className="game-year">
+                        ({formatReleaseYear(game.first_release_date)})
+                      </span>
+                    )}
+                  </div>
+                  
                   <button 
                     onClick={() => toggleCompleted(game.id)}
                     className={`completion-toggle ${game.completed ? 'completed' : 'not-completed'}`}
                   >
                     {game.completed ? (
                       <>
-                        <span className="toggle-icon">✓ </span>
+                        <span className="toggle-icon">✓</span>
                         Completed
                       </>
                     ) : (
                       <>
-                        <span className="toggle-icon">○ </span>
+                        <span className="toggle-icon">○</span>
                         Mark Complete
                       </>
                     )}

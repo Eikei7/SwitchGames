@@ -28,8 +28,10 @@ exports.handler = async (event) => {
     
     console.log('Received search for:', searchTerm);
     
-    // Get games with platform information
-    const query = `search "${searchTerm}"; fields id,name,cover.url,platforms; limit 20;`;
+    const query = `search "${searchTerm}"; 
+    fields id,name,cover.url,platforms,first_release_date,release_dates.platform,release_dates.date;
+    where platforms = (130);
+    limit 10;`;
     
     console.log('Sending query:', query);
     
