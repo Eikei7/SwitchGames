@@ -1,4 +1,3 @@
-// netlify/functions/igdb-search.js
 exports.handler = async (event) => {
   // Handle CORS preflight request
   if (event.httpMethod === 'OPTIONS') {

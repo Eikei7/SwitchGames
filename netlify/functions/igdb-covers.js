@@ -1,5 +1,3 @@
-// netlify/functions/igdb-covers.js
-
 exports.handler = async (event) => {
   // Handle CORS preflight request
   if (event.httpMethod === 'OPTIONS') {

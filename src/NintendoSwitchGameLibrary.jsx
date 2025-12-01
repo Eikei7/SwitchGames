@@ -674,12 +674,12 @@ const formatFullDate = (timestamp) => {
                   >
                     {game.completed ? (
                       <>
-                        <span className="toggle-icon">✓</span>
+                        <span className="toggle-icon">✓ </span>
                         Completed
                       </>
                     ) : (
                       <>
-                        <span className="toggle-icon">○</span>
+                        <span className="toggle-icon">○ </span>
                         Mark Complete
                       </>
                     )}
