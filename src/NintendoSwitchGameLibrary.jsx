@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './NintendoSwitchGameLibrary.css';
+import PcGameLibrary from './PcGameLibrary';
 
 const NintendoSwitchGameLibrary = () => {
   const [games, setGames] = useState([]);
@@ -697,6 +698,7 @@ const formatFullDate = (timestamp) => {
           </div>
         )}
       </div>
+      <PcGameLibrary />
     </div>
   );
 };

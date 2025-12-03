@@ -1,13 +1,13 @@
 import './App.css'
 import NintendoSwitchGameLibrary from './NintendoSwitchGameLibrary'
-import PcGameLibrary from './PcGameLibrary'
+// import PcGameLibrary from './PcGameLibrary'
 
 function App() {
 
   return (
     <>
       <NintendoSwitchGameLibrary />
-      <PcGameLibrary />
+      {/* <PcGameLibrary /> */}
       </>
   )
 }
