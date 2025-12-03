@@ -29,7 +29,7 @@ exports.handler = async (event) => {
     
     const query = `search "${searchTerm}"; 
     fields id,name,cover.url,platforms,first_release_date,release_dates.platform,release_dates.date;
-    where platforms = (1);
+    where platforms = (6);
     limit 10;`;
     
     console.log('Sending query:', query);
