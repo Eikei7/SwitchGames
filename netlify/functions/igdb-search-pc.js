@@ -53,9 +53,9 @@ exports.handler = async (event) => {
     const allGames = await response.json();
     console.log('Raw results:', allGames.length, 'games');
     
-    // Filter for PC games (platform ID 1)
+    // Filter for PC games (platform ID 6)
     const pcGames = allGames.filter(game => {
-      const isPCGame = game.platforms && game.platforms.includes(1);
+      const isPCGame = game.platforms && game.platforms.includes(6);
       console.log(`Game: ${game.name}, Platforms: ${game.platforms}, Is PC: ${isPCGame}`);
       return isPCGame;
     });
