@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './NintendoSwitchGameLibrary.css';
+import { Link } from 'react-router-dom';
 
 const NintendoSwitchGameLibrary = () => {
   const [games, setGames] = useState([]);
@@ -469,6 +470,9 @@ const formatFullDate = (timestamp) => {
 
   return (
     <div className="container">
+      <div className="page-navigation">
+      <Link to="/pc" className="nav-button">PC Games →</Link>
+    </div>
       <h1 className="main-title">My Nintendo Switch Game Library</h1>
     <div className="app-description">
       <p>Track your Nintendo Switch game collection, mark completed titles, and automatically fetch beautiful box art. Your library saves directly in your browser - no account needed!</p>

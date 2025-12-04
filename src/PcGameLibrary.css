@@ -74,6 +74,7 @@
   padding: 20px;
   background: var(--switch-black);
   min-height: 100vh;
+  border-radius: 16px;
 }
 
 .main-title {

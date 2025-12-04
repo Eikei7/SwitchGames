@@ -12,3 +12,67 @@
   border-radius: 12px;
   border: 1px solid #4a4a4a;
 }
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.home-page {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.home-page h1 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.home-page p {
+  color: #666;
+  margin-bottom: 3rem;
+  font-size: 1.2rem;
+}
+
+.platform-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.platform-card {
+  display: block;
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.platform-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.pc-card {
+  border-top: 4px solid #2193b0;
+}
+
+.switch-card {
+  border-top: 4px solid #e53935;
+}
+
+.platform-card h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.platform-card p {
+  color: #666;
+  margin: 0;
+}

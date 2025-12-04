@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import './PcGameLibrary.css';
+import { Link } from 'react-router-dom';
 
 const PcGameLibrary = () => {
   const [games, setGames] = useState([]);
@@ -469,7 +470,11 @@ const formatFullDate = (timestamp) => {
 
   return (
     <div className="container">
+      <div className="page-navigation">
+      <Link to="/" className="nav-button">← Nintendo Switch Games</Link>
+    </div>
       <h1 className="main-title">My PC Game Library</h1>
+      <p>(Steam, Epic Games Store, GOG, etc.)</p>
     <div className="app-description">
       <p>Track your PC game collection, mark completed titles, and automatically fetch beautiful box art. Your library saves directly in your browser - no account needed!</p>
     </div>
