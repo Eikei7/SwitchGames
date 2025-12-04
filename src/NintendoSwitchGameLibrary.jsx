@@ -606,10 +606,10 @@ const formatFullDate = (timestamp) => {
         {games.length > -1 && (
         <div className="backup-controls">
           <button onClick={exportGames} className="backup-button">
-            Export list
+            Export backup
           </button>
           <label className="import-button">
-            Import existing list
+            Import existing backup
             <input 
               type="file" 
               accept=".json" 
