@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Navigation from './components/Navigation';
 import NintendoSwitchGameLibrary from './NintendoSwitchGameLibrary';
 import PcGameLibrary from './PcGameLibrary';
 
