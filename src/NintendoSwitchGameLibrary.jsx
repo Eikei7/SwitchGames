@@ -367,22 +367,70 @@ const getGameArtwork = async (gameId) => {
   };
 
   const getSortedGames = () => {
-    let sortableGames = [...games];
-    
-    if (sortConfig.key) {
-      sortableGames.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
+  let sortableGames = [...games];
+  
+  if (sortConfig.key === 'release_date') {
+    // Special handling for release date (handles null/missing dates)
+    sortableGames.sort((a, b) => {
+      const dateA = a.first_release_date || 0;
+      const dateB = b.first_release_date || 0;
+      
+      if (dateA < dateB) {
+        return sortConfig.direction === 'ascending' ? -1 : 1;
+      }
+      if (dateA > dateB) {
+        return sortConfig.direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+  } else if (sortConfig.key) {
+    // Existing sorting logic for title and status
+    sortableGames.sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+      
+      // Handle undefined/null values
+      if (valueA == null && valueB != null) {
+        return sortConfig.direction === 'ascending' ? -1 : 1;
+      }
+      if (valueA != null && valueB == null) {
+        return sortConfig.direction === 'ascending' ? 1 : -1;
+      }
+      if (valueA == null && valueB == null) {
+        return 0;
+      }
+      
+      // For status (completed), treat true as "higher" than false
+      if (sortConfig.key === 'completed') {
+        if (valueA === valueB) return 0;
+        if (valueA && !valueB) {
           return sortConfig.direction === 'ascending' ? 1 : -1;
         }
-        return 0;
-      });
-    }
-    
-    return sortableGames;
-  };
+        if (!valueA && valueB) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+      }
+      
+      // For strings (title)
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'ascending' 
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+      
+      // For numbers or other types
+      if (valueA < valueB) {
+        return sortConfig.direction === 'ascending' ? -1 : 1;
+      }
+      if (valueA > valueB) {
+        return sortConfig.direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+  }
+  
+  return sortableGames;
+};
 
   const formatYear = (timestamp) => {
     if (!timestamp) return '';
@@ -594,6 +642,7 @@ const formatFullDate = (timestamp) => {
         >
           <option value="title">Title</option>
           <option value="completed">Status</option>
+          <option value="release_date">Release Year</option>
         </select>
         <button 
           onClick={() => requestSort(sortConfig.key)}
