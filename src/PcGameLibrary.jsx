@@ -715,8 +715,8 @@ const formatFullDate = (timestamp) => {
                   <div className="game-header">
                     <h3 className="game-title">{game.title}</h3>
                     {game.first_release_date && (
-                      <span className="game-year">
-                        ({formatReleaseYear(game.first_release_date)})
+                      <span className="game-year-corner">
+                        {formatReleaseYear(game.first_release_date)}
                       </span>
                     )}
                   </div>

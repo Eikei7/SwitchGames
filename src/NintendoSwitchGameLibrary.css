@@ -776,3 +776,16 @@
   opacity: 0.8;
   flex-shrink: 0;
 }
+
+.game-year-corner-switch {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--switch-red);
+  color: white;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 0 0 0 8px;
+  z-index: 2;
+}
