@@ -28,12 +28,10 @@ const PcGameLibrary = () => {
   const dropdownRef = useRef(null);
   const searchTimeoutRef = useRef(null);
 
-  // Get credentials from environment variables
   const IGDB_CLIENT_ID = import.meta.env.VITE_IGDB_CLIENT_ID;
   const IGDB_CLIENT_SECRET = import.meta.env.VITE_IGDB_CLIENT_SECRET;
   const [accessToken, setAccessToken] = useState(null);
 
-  // localStorage key
   const STORAGE_KEY = 'pc-games';
 
   useEffect(() => {
@@ -45,7 +43,6 @@ const PcGameLibrary = () => {
     });
     
     fetchGames();
-    // Just check if client ID exists, don't try to get access token
   if (IGDB_CLIENT_ID) {
     setApiReady(true);
     setApiStatus('authenticated');
@@ -54,7 +51,6 @@ const PcGameLibrary = () => {
   }
 }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -68,7 +64,6 @@ const PcGameLibrary = () => {
     };
   }, []);
 
-  // localStorage functions
   const fetchGames = async () => {
     try {
       setLoading(true);
