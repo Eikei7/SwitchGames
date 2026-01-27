@@ -29,20 +29,17 @@ const PcGameLibrary = () => {
   const searchTimeoutRef = useRef(null);
 
   const IGDB_CLIENT_ID = import.meta.env.VITE_IGDB_CLIENT_ID;
-  const IGDB_CLIENT_SECRET = import.meta.env.VITE_IGDB_CLIENT_SECRET;
-  const [accessToken, setAccessToken] = useState(null);
 
   const STORAGE_KEY = 'pc-games';
 
   useEffect(() => {
-    console.log('Environment variables:', {
-      hasClientId: !!IGDB_CLIENT_ID,
-      hasClientSecret: !!IGDB_CLIENT_SECRET,
-      clientId: IGDB_CLIENT_ID ? 'Set' : 'Not set',
-      clientSecret: IGDB_CLIENT_SECRET ? 'Set' : 'Not set'
-    });
-    
-    fetchGames();
+  console.log('Environment variables:', {
+    hasClientId: !!IGDB_CLIENT_ID,
+    clientId: IGDB_CLIENT_ID ? 'Set' : 'Not set'
+  });
+  
+  fetchGames();
+  
   if (IGDB_CLIENT_ID) {
     setApiReady(true);
     setApiStatus('authenticated');
@@ -93,51 +90,6 @@ const PcGameLibrary = () => {
 
   const generateId = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
-  };
-
-  // Get access token from Twitch
-  const getAccessToken = async () => {
-    if (!IGDB_CLIENT_ID || !IGDB_CLIENT_SECRET) {
-      console.error('Missing IGDB credentials in environment variables');
-      setApiStatus('no_credentials');
-      return;
-    }
-
-    try {
-      console.log('Attempting to get access token...');
-      setApiStatus('authenticating');
-      
-      const response = await fetch('https://id.twitch.tv/oauth2/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          client_id: IGDB_CLIENT_ID,
-          client_secret: IGDB_CLIENT_SECRET,
-          grant_type: 'client_credentials'
-        })
-      });
-
-      console.log('Token response status:', response.status);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Token request failed:', response.status, errorText);
-        setApiStatus('auth_failed');
-        throw new Error(`Token request failed: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log('Access token received:', data.access_token ? 'Yes' : 'No');
-      setAccessToken(data.access_token);
-      setApiStatus('authenticated');
-      console.log('Successfully authenticated with IGDB API');
-    } catch (err) {
-      console.error('Error getting access token:', err);
-      setApiStatus('auth_failed');
-      setError('Failed to authenticate with game database. Check your API credentials.');
-    }
   };
 
   const searchGames = async (query) => {
