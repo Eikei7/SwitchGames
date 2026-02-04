@@ -28,12 +28,10 @@ const NintendoSwitchGameLibrary = () => {
   const dropdownRef = useRef(null);
   const searchTimeoutRef = useRef(null);
 
-  // Get credentials from environment variables
   const IGDB_CLIENT_ID = import.meta.env.VITE_IGDB_CLIENT_ID;
   const IGDB_CLIENT_SECRET = import.meta.env.VITE_IGDB_CLIENT_SECRET;
   const [accessToken, setAccessToken] = useState(null);
 
-  // localStorage key
   const STORAGE_KEY = 'nintendo-switch-games';
 
   useEffect(() => {
@@ -45,7 +43,6 @@ const NintendoSwitchGameLibrary = () => {
     });
     
     fetchGames();
-    // Just check if client ID exists, don't try to get access token
   if (IGDB_CLIENT_ID) {
     setApiReady(true);
     setApiStatus('authenticated');
@@ -54,7 +51,6 @@ const NintendoSwitchGameLibrary = () => {
   }
 }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -68,7 +64,6 @@ const NintendoSwitchGameLibrary = () => {
     };
   }, []);
 
-  // localStorage functions
   const fetchGames = async () => {
     try {
       setLoading(true);
@@ -100,7 +95,6 @@ const NintendoSwitchGameLibrary = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   };
 
-  // Get access token from Twitch
   const getAccessToken = async () => {
     if (!IGDB_CLIENT_ID || !IGDB_CLIENT_SECRET) {
       console.error('Missing IGDB credentials in environment variables');
@@ -172,7 +166,6 @@ const NintendoSwitchGameLibrary = () => {
 
     const data = await response.json();
     
-    // Show whatever results we get
     setSearchResults(data);
     setShowDropdown(data.length > 0);
     return data;
@@ -227,17 +220,14 @@ const getGameArtwork = async (gameId) => {
       title: value 
     });
     
-    // Clear selection if user starts typing again
     if (selectedGame && value !== selectedGame.name) {
       setSelectedGame(null);
     }
     
-    // Clear previous timeout
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
     
-    // Search after a short delay to avoid too many API calls
     if (value.length > 2) {
       setSearching(true);
       searchTimeoutRef.current = setTimeout(() => {
@@ -260,7 +250,6 @@ const getGameArtwork = async (gameId) => {
   });
   setShowDropdown(false);
   
-  // Fetch artwork for the selected game
   if (game.id) {
     const imageUrl = await getGameArtwork(game.id);
     console.log('Artwork result:', imageUrl);
@@ -268,11 +257,9 @@ const getGameArtwork = async (gameId) => {
       setNewGame(prev => ({
         ...prev,
         imageUrl: imageUrl,
-        // Store the release date if available
         releaseDate: game.first_release_date
       }));
     } else {
-      // Still store release date even if no artwork
       setNewGame(prev => ({
         ...prev,
         releaseDate: game.first_release_date
@@ -295,7 +282,6 @@ const getGameArtwork = async (gameId) => {
       let imageUrl = newGame.imageUrl;
       let releaseDate = newGame.releaseDate;
       
-      // If no game was selected from search, try to find it automatically
       if (!selectedGame && !imageUrl && accessToken) {
         const searchResults = await searchGames(newGame.title);
         if (searchResults && searchResults.length > 0) {
@@ -313,11 +299,9 @@ const getGameArtwork = async (gameId) => {
         first_release_date: releaseDate || null
       };
 
-      // Add to localStorage
       const updatedGames = [...games, gameToAdd];
       saveGames(updatedGames);
       
-      // Reset form
       setNewGame({
         title: "",
         completed: false,
@@ -370,7 +354,6 @@ const getGameArtwork = async (gameId) => {
   let sortableGames = [...games];
   
   if (sortConfig.key === 'release_date') {
-    // Special handling for release date (handles null/missing dates)
     sortableGames.sort((a, b) => {
       const dateA = a.first_release_date || 0;
       const dateB = b.first_release_date || 0;
@@ -384,12 +367,10 @@ const getGameArtwork = async (gameId) => {
       return 0;
     });
   } else if (sortConfig.key) {
-    // Existing sorting logic for title and status
     sortableGames.sort((a, b) => {
       const valueA = a[sortConfig.key];
       const valueB = b[sortConfig.key];
       
-      // Handle undefined/null values
       if (valueA == null && valueB != null) {
         return sortConfig.direction === 'ascending' ? -1 : 1;
       }
@@ -400,7 +381,6 @@ const getGameArtwork = async (gameId) => {
         return 0;
       }
       
-      // For status (completed), treat true as "higher" than false
       if (sortConfig.key === 'completed') {
         if (valueA === valueB) return 0;
         if (valueA && !valueB) {
@@ -454,7 +434,6 @@ const getGameArtwork = async (gameId) => {
     }
   };
 
-  // Export/Import functionality
   const exportGames = () => {
   const dataStr = JSON.stringify(games, null, 2);
   const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
