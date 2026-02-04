@@ -1,5 +1,5 @@
-# Nintendo Switch Game Library
-A modern, responsive web application for managing your Nintendo Switch game collection. Track your gaming progress, automatically fetch box art, and organize your library with a beautiful Nintendo-themed interface.
+# Nintendo Switch & PC Games Library
+A modern, responsive web application for managing your game collections. Track your gaming progress, automatically fetch box art, and organize your library.
 
 <img width="1346" height="902" alt="Skärmbild 2025-11-18 150835" src="https://github.com/user-attachments/assets/b301b7f1-cf8c-4b44-8515-2a88158b7c66" />
 
