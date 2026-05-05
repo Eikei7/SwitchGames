@@ -1,7 +1,7 @@
 let cachedToken = null;
 let tokenExpiry = null;
 
-async function getAccessToken() {
+export async function getAccessToken() {
   // Return cached token if still valid
   if (cachedToken && tokenExpiry && Date.now() < tokenExpiry) {
     return cachedToken;
@@ -30,4 +30,3 @@ async function getAccessToken() {
   return cachedToken;
 }
 
-module.exports = { getAccessToken };
