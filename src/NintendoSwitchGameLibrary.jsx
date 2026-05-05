@@ -8,6 +8,7 @@ const NintendoSwitchGameLibrary = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [searching, setSearching] = useState(false);
+  const [viewMode, setViewMode] = useState('grid');
 
   const [sortConfig, setSortConfig] = useState({
     key: 'title',
@@ -629,31 +630,49 @@ const formatFullDate = (timestamp) => {
         >
           {sortConfig.direction === 'ascending' ? '↑' : '↓'}
         </button>
-        
-        
-        {games.length > -1 && (
-        <div className="backup-controls">
-          <button onClick={exportGames} className="backup-button">
-            Export backup
-          </button>
-          <label className="import-button">
-            Import existing backup
-            <input 
-              type="file" 
-              accept=".json" 
-              onChange={importGames}
-              style={{ display: 'none' }}
-            />
-          </label>
+
+        <div className="sort-controls-right">
+          <div className="view-toggle">
+            <button
+              className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              title="Grid view"
+            >
+              ⊞
+            </button>
+            <button
+              className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+              title="List view"
+            >
+              ≡
+            </button>
+          </div>
+
+          {games.length > -1 && (
+            <div className="backup-controls">
+              <button onClick={exportGames} className="backup-button">
+                Export backup
+              </button>
+              <label className="import-button">
+                Import existing backup
+                <input
+                  type="file"
+                  accept=".json"
+                  onChange={importGames}
+                  style={{ display: 'none' }}
+                />
+              </label>
+            </div>
+          )}
         </div>
-      )}
         
       </div>
 
       <div className="games-grid-container">
         {loading ? (
           <div className="loading">Loading games...</div>
-        ) : (
+        ) : viewMode === 'grid' ? (
           <div className="games-grid">
             {getSortedGames().map(game => (
               <div 
@@ -725,6 +744,83 @@ const formatFullDate = (timestamp) => {
                 <p>No games added yet.</p>
                 <p>Add your first game above!</p>
               </div>
+            )}
+          </div>
+        ) : (
+          /* LIST VIEW */
+          <div className="games-list">
+            {getSortedGames().length === 0 && !loading ? (
+              <div className="empty-grid">
+                <p>No games added yet.</p>
+                <p>Add your first game above!</p>
+              </div>
+            ) : (
+              <>
+                <div className="list-header">
+                  <div className="list-col-cover"></div>
+                  <div className="list-col-title">Title</div>
+                  <div className="list-col-year">Year</div>
+                  <div className="list-col-status">Status</div>
+                  <div className="list-col-actions"></div>
+                </div>
+                {getSortedGames().map((game, index) => (
+                  <div
+                    key={game.id}
+                    className={`list-row ${game.completed ? 'completed' : ''}`}
+                    style={{ '--row-index': index }}
+                  >
+                    <div className="list-col-cover">
+                      {game.imageUrl ? (
+                        <img
+                          src={game.imageUrl}
+                          alt={`${game.title} cover`}
+                          className="list-cover-img"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                      ) : null}
+                      <div
+                        className="list-no-cover"
+                        style={{ display: game.imageUrl ? 'none' : 'flex' }}
+                      >
+                        ?
+                      </div>
+                    </div>
+
+                    <div className="list-col-title">
+                      <span className="list-game-title">{game.title}</span>
+                    </div>
+
+                    <div className="list-col-year">
+                      {game.first_release_date
+                        ? formatReleaseYear(game.first_release_date)
+                        : <span className="list-no-data">—</span>
+                      }
+                    </div>
+
+                    <div className="list-col-status">
+                      <button
+                        onClick={() => toggleCompleted(game.id)}
+                        className={`list-status-badge ${game.completed ? 'completed' : 'not-completed'}`}
+                      >
+                        {game.completed ? '✓ Completed' : '○ Backlog'}
+                      </button>
+                    </div>
+
+                    <div className="list-col-actions">
+                      <button
+                        onClick={() => handleRemoveGame(game.id)}
+                        className="list-remove-button"
+                        title="Remove game"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </>
             )}
           </div>
         )}
