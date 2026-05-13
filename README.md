@@ -17,7 +17,7 @@ A modern, responsive web application for managing your Nintendo Switch and PC ga
 
 **Completion Tracking** - Simple toggle to mark games as completed
 
-**Grid/List View** - Switch between grid and list view modes (both libraries)
+**Grid/List View** - Switch between grid and list view modes
 
 **Local Storage** - Your entire collection saves automatically in your browser - no account needed
 
