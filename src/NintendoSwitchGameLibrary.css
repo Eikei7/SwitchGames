@@ -603,6 +603,15 @@
   border-bottom: none;
 }
 
+.search-result-item.already-added {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.search-result-item.already-added:hover {
+  background-color: transparent;
+}
+
 .search-result-title {
   font-weight: 600;
   font-size: 14px;
