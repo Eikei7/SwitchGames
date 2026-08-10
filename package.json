@@ -25,5 +25,12 @@
     "globals": "^17.7.0",
     "netlify-cli": "^26.0.2",
     "vite": "^7.1.5"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "esbuild@0.28.0": true,
+    "sharp@0.34.5": true,
+    "unix-dgram@2.0.7": true,
+    "netlify-cli@26.2.0": true
   }
 }
