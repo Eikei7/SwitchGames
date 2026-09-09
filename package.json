@@ -23,7 +23,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^17.7.0",
-    "netlify-cli": "^26.0.2",
+    "netlify-cli": "^27.1.1",
     "vite": "^7.1.5"
   },
   "allowScripts": {
